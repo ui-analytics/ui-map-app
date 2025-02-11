@@ -1,0 +1,1 @@
+export const projectConfig = {projectId:1}

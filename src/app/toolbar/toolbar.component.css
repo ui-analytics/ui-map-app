@@ -1,0 +1,28 @@
+#toolbar {
+  display: flex;
+}
+
+#variablesToolbar {
+  display: flex;
+  background-color: none;
+}
+
+#right-sidenav {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+#variablesDiv {
+  display: flex;
+  position: absolute;
+  
+  flex-direction: row;
+  justify-content: center;
+  width:100%;
+  margin:0px;
+  padding:0%;
+  background-color: none;
+  z-index: 1;
+}

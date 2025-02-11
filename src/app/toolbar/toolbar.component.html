@@ -1,0 +1,22 @@
+<mat-toolbar id="#toolbar" style="background-color: black;">
+    <div id="left-sidenav">
+        <div id="left-sidenav__title" style="color: white;">
+            {{toolbar_name}}
+        </div>
+        
+    </div>
+
+    <div id="right-sidenav">
+        <mat-button-toggle-group [hideSingleSelectionIndicator]="hideSelection" (change)="onToggleGroupChange($event)">
+            <app-toolbar-item *ngFor="let category of categories;" [category]="category" style="display: flex;"></app-toolbar-item>
+        </mat-button-toggle-group>
+    </div>
+</mat-toolbar>
+
+
+    <div id="variablesDiv">
+        <mat-button-toggle-group [hideSingleSelectionIndicator]="hideSelection" (change)="onToggleVariableChange($event)" style="margin:10px;">
+            <app-toolbar-variable *ngFor="let variable of variables;" [variable]="variable" style="display: flex;"></app-toolbar-variable>
+        </mat-button-toggle-group>
+    </div>
+

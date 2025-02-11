@@ -1,0 +1,9 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Adjust as needed */
+  }
+
+#appMap {
+    height: 100%;
+}
