@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, signal } from '@angular/core';
 import { MapService } from '../../services/map.service'
 
 import { MatButtonToggleModule } from '@angular/material/button-toggle'
@@ -13,14 +13,40 @@ import { MapVariable } from '../../shared/models/map-variable';
 })
 export class ToolbarVariableComponent {
   @Input() variable!: MapVariable;
-  @Input() visible!: boolean;
+  varVisible?: boolean = false;
+  @Input() id!:number;
+
+  variableList: Number[] =  []
+  variables: MapVariable[] = [];
+  hideSelection = signal(false);
 
   constructor(private mapService: MapService) {}
 
-  ngAfterContentInit() {
-    if (this.variable.name == this.mapService.selectedVariable.name) {
-      this.visible = true;
-    }
+  getVariableList(): void {
+    this.mapService.getMapVariables(this.variableList).subscribe((mv) => {
+      this.variables = mv;
+    })
+  }
+
+  ngOnInit() {
+    this.getVariableList();
+    this.mapService.getCurrentVariable()
+    .subscribe((cv) => {
+      if (this.variable.name == cv.name) {
+        this.varVisible = true;
+        console.log('change', this.varVisible, this.variable.name, cv.name);
+      } else {
+        this.varVisible = false;
+      }
+    });
+  }
+
+  onToggleVariableChange(event:any) {
+    console.log('change')
+    let selectedValue = event.value
+    let currentVariable = this.variables.filter((cat) => cat.name === selectedValue).reduce((acc: any, it) => it, { })
+    console.log(currentVariable);
+    this.mapService.updateCurrentVariable(currentVariable);
   }
 
 }

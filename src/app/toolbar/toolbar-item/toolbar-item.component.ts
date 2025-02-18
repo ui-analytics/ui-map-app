@@ -12,7 +12,7 @@ import { MapVariable } from '../../shared/models/map-variable';
   templateUrl: './toolbar-item.component.html',
   styleUrl: './toolbar-item.component.css'
 })
-export class ToolbarItemComponent implements OnInit {
+export class ToolbarItemComponent {
   
 
   @Input() category!: MapCategory;
@@ -21,13 +21,11 @@ export class ToolbarItemComponent implements OnInit {
 
   constructor(private mapService: MapService) {}
 
-  ngOnInit(): void {
-    // console.log(this.category.name)
-  }
-
   ngAfterContentInit() {
-    if (this.category.name == this.mapService.selectedCategory.name) {
-      this.visible = true;
-    }
+    this.mapService.getCurrentCategory().subscribe((value) => {
+      if (this.category.name == value.name) {
+        this.visible = true;
+      }
+    });
   }
 }

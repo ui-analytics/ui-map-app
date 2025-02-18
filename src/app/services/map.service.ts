@@ -22,8 +22,8 @@ export class MapService {
   project!: Project;
   mapCategories: MapCategory[] = []
   mapVariables: MapVariable[] = []
-  selectedCategory!: MapCategory;
-  selectedVariable!: MapVariable;
+  // selectedCategory!: MapCategory;
+  // selectedVariable!: MapVariable;
   colorVariable: ColorVariable = new ColorVariable({
     normalizationField: 'mfagetote',
     stops: [
@@ -74,8 +74,8 @@ export class MapService {
     })
   });
 
+  private currentCategory = new BehaviorSubject<MapCategory>(MAP_CATEGORY[0]);
   private currentVariable = new BehaviorSubject<MapVariable>(MAP_VARIABLE[0]);
-  // private currentVariable:MapVariable = MAP_VARIABLE[0];
 
   constructor() { }
 
@@ -87,22 +87,24 @@ export class MapService {
     return of(MAP_CATEGORY.filter( mc => this.project?.mapCategories.includes(mc.categoryId)));
   }
 
-  getMapVariables(): Observable<MapVariable[]> {
-    let mapVariables = MAP_CATEGORY.filter( mc => mc.categoryId == this.selectedCategory.categoryId).reduce((acc: any, it) => it, { }).mapVariables
-    return of(MAP_VARIABLE.filter(mv => mapVariables.includes(mv.variableId)))
+  getMapVariables(mapVariables:Number[]): Observable<MapVariable[]> {
+    return of(MAP_VARIABLE.filter( mv => mapVariables.includes(mv.variableId)));
   }
 
-  getSelectedVariable(): Observable<MapVariable> {
-    return of(this.selectedVariable)
+  getCurrentCategory(): Observable<MapCategory> {
+    return this.currentCategory.asObservable();
+  }
+
+  updateCurrentCategory(newCategory:MapCategory) {
+    this.currentCategory.next(newCategory)
   }
 
   getCurrentVariable(): Observable<MapVariable> {
     return this.currentVariable.asObservable();
-    // return of(this.currentVariable);
   }
 
   updateCurrentVariable(newVariable:MapVariable) {
     this.currentVariable.next(newVariable)
-    // this.currentVariable = newVariable;
   }
+  
 }

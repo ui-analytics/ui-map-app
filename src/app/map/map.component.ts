@@ -17,6 +17,7 @@ import { MapService } from '../services/map.service'
 import { MapVariable } from '../shared/models/map-variable';
 
 import { Subscription } from 'rxjs';
+import { Project } from '../shared/models/project';
 
 @Component({
   selector: 'app-map',
@@ -34,6 +35,8 @@ export class MapComponent implements OnInit, OnDestroy {
 
   private variableSubscription:Subscription;
 
+  project?:Project;
+
   constructor(private mapService: MapService) {
     this.variableSubscription = this.mapService.getCurrentVariable().subscribe((value) => {
       console.log('current variable is:',value)
@@ -44,8 +47,12 @@ export class MapComponent implements OnInit, OnDestroy {
   async initializeMap(): Promise<any> {
     const container = this.mapViewEl.nativeElement;
 
+    
+    this.project = this.mapService.project;
+    
+
     this.map = new Map({
-      basemap: 'dark-gray-3d'
+      basemap: this.project.basemap
     })
 
 
@@ -54,47 +61,13 @@ export class MapComponent implements OnInit, OnDestroy {
     this.view = new MapView({
       container,
       map: this.map,
-      center: [-80.7366, 35.3081],
-      zoom: 8,
+      center: this.project.center,
+      zoom: this.project.zoom,
     });
 
     return this.view.when()
 
   }
-
-  // updateFeatureLayer(field:string) {
-  //   this.censusTractsFL.renderer = new SimpleRenderer({
-  //     symbol: new SimpleFillSymbol({
-  //       color: [ 51,51, 204, 0.9 ],
-  //       style: "solid",
-  //       outline: {
-  //         color: [0,0,0, 0.2],
-  //         width: "2px"
-  //       }
-  //     }),
-  //     visualVariables: [new ColorVariable({
-  //       field: field,
-  //       normalizationField: 'mfagetote',
-  //       stops: [
-  //         {
-  //           value: .01, 
-  //           color: "#F4D5C1", 
-  //           label: "1% or lower"
-  //         },
-  //         {
-  //           value: .04, 
-  //           color: "#BC5539", 
-  //           label: "4% or higher" 
-  //         },
-  //         {
-  //           value: .16, 
-  //           color: "#7A1C13", 
-  //           label: "16% or higher"
-  //         }
-  //       ]
-  //     })]
-  //   })
-  // }
 
   ngOnInit(): any {
     this.initializeMap().then(r => {
