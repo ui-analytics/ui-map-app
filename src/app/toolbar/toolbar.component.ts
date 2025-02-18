@@ -66,7 +66,7 @@ export class ToolbarComponent implements AfterViewInit {
       console.log('t');
       this.getCategories();
       this.getVariableList();
-      // this.cdr.detectChanges();
+      this.cdr.detectChanges();
   }
 
   onToggleGroupChange(event:any) {
@@ -74,7 +74,7 @@ export class ToolbarComponent implements AfterViewInit {
     let selectedCategory = this.categories.filter((cat) => cat.name === selectedValue).reduce((acc: any, it) => it, { })
     this.mapService.updateCurrentCategory(selectedCategory);
     this.getVariableList();
-    this.mapService.updateCurrentVariable(this.variables[0]);
+    // this.mapService.updateCurrentVariable(this.variables[0]);
     
   }
 
