@@ -1,4 +1,4 @@
-# Urban Institue Mapping Application
+# Urban Institute Mapping Application
 
 [Regional Explorer Website](https://regionalexplorer.netlify.app)
 
