@@ -9,10 +9,11 @@ import { projectConfig } from './projectConfig';
 
 import { MapService } from './services/map.service';
 import { MapCategory } from './shared/models/map-category';
+import { TimeSliderComponent } from "./time-slider/time-slider.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MapComponent, ToolbarComponent],
+  imports: [RouterOutlet, MapComponent, ToolbarComponent, TimeSliderComponent,TimeSliderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
