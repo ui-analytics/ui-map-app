@@ -34,7 +34,7 @@ export class ToolbarVariableComponent {
     .subscribe((cv) => {
       if (this.variable.name == cv.name) {
         this.varVisible = true;
-        console.log('change', this.varVisible, this.variable.name, cv.name);
+        // console.log('change', this.varVisible, this.variable.name, cv.name);
       } else {
         this.varVisible = false;
       }

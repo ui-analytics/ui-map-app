@@ -32,7 +32,7 @@ export class ToolbarComponent implements AfterViewInit {
     });
 
     this.variableSubscription = this.mapService.getCurrentVariable().subscribe((value) => {
-      // console.log('current variable is:',value)
+      console.log('current variable is:',value)
       this.selectedVariable = value;
     });
 
@@ -63,7 +63,6 @@ export class ToolbarComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-      console.log('t');
       this.getCategories();
       this.getVariableList();
       this.cdr.detectChanges();
