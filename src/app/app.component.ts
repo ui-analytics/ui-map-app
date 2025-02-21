@@ -9,10 +9,11 @@ import { projectConfig } from './projectConfig';
 
 import { MapService } from './services/map.service';
 import { MapCategory } from './shared/models/map-category';
+import { TimeSliderComponent } from "./time-slider/time-slider.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MapComponent, ToolbarComponent],
+  imports: [RouterOutlet, MapComponent, ToolbarComponent, TimeSliderComponent,TimeSliderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -20,15 +21,15 @@ export class AppComponent implements OnInit {
   constructor(private mapService: MapService) { }
 
   async initializeApp() {
-    await this.getProject(projectConfig.projectId);
+    await this.setProject(projectConfig.projectId);
   }
 
   title = 'angular-app';
   projectName = '';
   projectId?:number;
 
-  getProject(id: number): void {
-    this.mapService.getProject(id)
+  setProject(id: number): void {
+    this.mapService.getProjectById(id)
       .subscribe(project => {
         this.mapService.project = project;
         this.projectName = project.name;

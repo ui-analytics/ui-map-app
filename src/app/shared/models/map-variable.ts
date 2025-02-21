@@ -2,5 +2,6 @@ export interface MapVariable {
   variableId: number;
   name: string;
   featureServiceUrl?: string;
-  censusVariable : string;  
+  censusVariable: string;
+  yearsAvailable: number[];  
 }
