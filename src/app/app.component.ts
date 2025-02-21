@@ -21,15 +21,15 @@ export class AppComponent implements OnInit {
   constructor(private mapService: MapService) { }
 
   async initializeApp() {
-    await this.getProject(projectConfig.projectId);
+    await this.setProject(projectConfig.projectId);
   }
 
   title = 'angular-app';
   projectName = '';
   projectId?:number;
 
-  getProject(id: number): void {
-    this.mapService.getProject(id)
+  setProject(id: number): void {
+    this.mapService.getProjectById(id)
       .subscribe(project => {
         this.mapService.project = project;
         this.projectName = project.name;
