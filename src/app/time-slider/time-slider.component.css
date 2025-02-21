@@ -6,7 +6,7 @@ ngx-slider {
 .sliderDiv {
   background-color: black;
   padding-top:30px;
-  padding-bottom:5px;
+  padding-bottom:15px;
   border-radius:35px;
   opacity:8;
   border: 1px solid white;
@@ -22,14 +22,4 @@ ngx-slider {
 
 ::ng-deep .sliderDiv > .ngx-slider .ngx-slider-pointer {
   background-color: #77791e;
-}
-
-::ng-deep .sliderDiv > .ngx-slider .ngx-slider-pointer::after {
-  background-color: white;
-  color:white;
-}
-
-::ng-deep .sliderDiv > .ngx-slider .ngx-slider-pointer::before {
-  background-color: white;
-  color:white;
 }
