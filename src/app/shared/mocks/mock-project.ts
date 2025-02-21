@@ -9,7 +9,5 @@ export const PROJECT: Project[] = [{
     zoom: 8,
     maps: [1],
     mapTools: [MapToolCategory.base],
-    mapCategories: [1,2,3,4,5,6,7,8,9],
-    dataYearStart:2020,
-    dataYearEnd:2021
+    mapCategories: [1,2,3,4,5,6,7,8,9]
   }];

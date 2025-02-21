@@ -11,6 +11,4 @@ export interface Project {
   mapTools: MapToolCategory[];
   mapCategories: number[];
   basemapGallery?: any;
-  dataYearStart: number;
-  dataYearEnd?: number
 }
