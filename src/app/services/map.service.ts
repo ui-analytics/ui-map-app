@@ -59,7 +59,7 @@ export class MapService {
     portalItem: {
       id: 'b7a386ae3c8b404bb856631f936a1e04'
     },
-    definitionExpression:'year = 2021',
+    // definitionExpression:'year = 2021',
     opacity: 1,
     renderer: new SimpleRenderer({
       symbol: new SimpleFillSymbol({
