@@ -39,7 +39,6 @@ export class MapComponent implements OnInit, OnDestroy {
 
   constructor(private mapService: MapService) {
     this.variableSubscription = this.mapService.getCurrentVariable().subscribe((value) => {
-      console.log('current variable is:',value)
       this.mapService.colorVariable.field = value.censusVariable;
     });
   }
