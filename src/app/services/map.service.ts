@@ -79,7 +79,7 @@ export class MapService {
 
   constructor() { }
 
-  getProject(id: number): Observable<Project> {
+  getProjectById(id: number): Observable<Project> {
     return of(PROJECT.filter((project) => project.projectId === id).reduce((acc: any, it) => it, { }));
   }
 
