@@ -5,16 +5,9 @@ import WebMap from '@arcgis/core/WebMap';
 import Map from '@arcgis/core/Map';
 import MapView from '@arcgis/core/views/MapView';
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
-import FeatureTable from "@arcgis/core/widgets/FeatureTable.js";
-import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer.js";
-import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol.js";
-import Color from "@arcgis/core/Color.js";
-import VisualVariable from "@arcgis/core/renderers/visualVariables/VisualVariable.js";
-import ColorVariable from "@arcgis/core/renderers/visualVariables/ColorVariable.js";
 
 import { ToolbarComponent } from "../toolbar/toolbar.component";
 import { MapService } from '../services/map.service'
-import { MapVariable } from '../shared/models/map-variable';
 
 import { Subscription } from 'rxjs';
 import { Project } from '../shared/models/project';
