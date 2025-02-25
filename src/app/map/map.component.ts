@@ -1,12 +1,9 @@
 import { Component, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
-import {MatSlideToggle} from '@angular/material/slide-toggle';
 
-import WebMap from '@arcgis/core/WebMap';
 import Map from '@arcgis/core/Map';
 import MapView from '@arcgis/core/views/MapView';
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
 
-import { ToolbarComponent } from "../toolbar/toolbar.component";
 import { MapService } from '../services/map.service'
 
 import { Subscription } from 'rxjs';
@@ -14,7 +11,7 @@ import { Project } from '../shared/models/project';
 
 @Component({
   selector: 'app-map',
-  imports: [ToolbarComponent],
+  imports: [],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css'
 })
