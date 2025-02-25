@@ -11,9 +11,11 @@ import { MapService } from './services/map.service';
 import { MapCategory } from './shared/models/map-category';
 import { TimeSliderComponent } from "./time-slider/time-slider.component";
 
+import { MatSidenavModule } from '@angular/material/sidenav';
+
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MapComponent, ToolbarComponent, TimeSliderComponent,TimeSliderComponent],
+  imports: [RouterOutlet, MapComponent, ToolbarComponent, TimeSliderComponent,TimeSliderComponent,MatSidenavModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -28,6 +30,9 @@ export class AppComponent implements OnInit {
   projectName = '';
   projectId?:number;
 
+  isSidenavOpen = true;
+
+
   setProject(id: number): void {
     this.mapService.getProjectById(id)
       .subscribe(project => {
@@ -41,6 +46,10 @@ export class AppComponent implements OnInit {
     this.initializeApp().then(r => {
       return r;
     });
+  }
+
+  toggleSidenav() {
+    this.isSidenavOpen = !this.isSidenavOpen;
   }
 }
 

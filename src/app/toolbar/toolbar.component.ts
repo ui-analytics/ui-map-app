@@ -2,6 +2,8 @@ import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, Input, O
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatButtonToggleModule, MatButtonToggleGroup } from '@angular/material/button-toggle'
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 import { MapCategory } from '../shared/models/map-category'
 
@@ -14,7 +16,8 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-toolbar',
-  imports: [MatToolbarModule, CommonModule, ToolbarItemComponent, MatButtonToggleModule, ToolbarVariableComponent],
+  imports: [MatToolbarModule, CommonModule, ToolbarItemComponent, MatButtonToggleModule, ToolbarVariableComponent,
+    MatButtonModule,MatIconModule],
   templateUrl: './toolbar.component.html',
   styleUrl: './toolbar.component.css'
 })
