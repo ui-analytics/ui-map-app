@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
   projectName = '';
   projectId?:number;
 
-  isSidenavOpen = true;
+  isSidenavOpen?:boolean;
 
 
   setProject(id: number): void {
@@ -46,10 +46,15 @@ export class AppComponent implements OnInit {
     this.initializeApp().then(r => {
       return r;
     });
+
+    this.mapService.getSidenavOpen().subscribe((state) => {
+      this.isSidenavOpen = state;
+    })
   }
 
   toggleSidenav() {
     this.isSidenavOpen = !this.isSidenavOpen;
+    this.mapService.setSidenavOpen(this.isSidenavOpen);
   }
 }
 

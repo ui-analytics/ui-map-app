@@ -50,6 +50,7 @@ export class ToolbarComponent implements AfterViewInit {
   selectedVariable?: MapVariable;
 
   hideSelection = signal(false);
+  isSidenavOpen?:boolean;
 
 
   getCategories(): void {
@@ -69,6 +70,10 @@ export class ToolbarComponent implements AfterViewInit {
       this.getCategories();
       this.getVariableList();
       this.cdr.detectChanges();
+
+      this.mapService.getSidenavOpen().subscribe((state)=>{
+        this.isSidenavOpen = state;
+      })
   }
 
   onToggleGroupChange(event:any) {
@@ -87,6 +92,10 @@ export class ToolbarComponent implements AfterViewInit {
     
   }
 
+  toggleSideNav() {
+    this.isSidenavOpen = !this.isSidenavOpen;
+    this.mapService.setSidenavOpen(this.isSidenavOpen);
+  }
   
 }
 
