@@ -76,6 +76,7 @@ export class MapService {
 
   private currentCategory = new BehaviorSubject<MapCategory>(MAP_CATEGORY[0]);
   private currentVariable = new BehaviorSubject<MapVariable>(MAP_VARIABLE[0]);
+  private isSidenavOpen = new BehaviorSubject<boolean>(false);
 
   constructor() { }
 
@@ -105,6 +106,14 @@ export class MapService {
 
   updateCurrentVariable(newVariable:MapVariable) {
     this.currentVariable.next(newVariable)
+  }
+
+  getSidenavOpen() {
+    return this.isSidenavOpen.asObservable();
+  }
+
+  setSidenavOpen(state:boolean) {
+    return this.isSidenavOpen.next(state);
   }
   
 }
