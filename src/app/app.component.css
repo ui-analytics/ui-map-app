@@ -17,3 +17,12 @@
   display: flex;
   justify-content: center;
 }
+
+.sidenav-container {
+  height: 100vh;
+}
+
+mat-sidenav {
+  width: 350px;
+  padding: 10px;
+}

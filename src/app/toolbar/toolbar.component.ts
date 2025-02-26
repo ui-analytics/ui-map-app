@@ -2,6 +2,8 @@ import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, Input, O
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatButtonToggleModule, MatButtonToggleGroup } from '@angular/material/button-toggle'
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 import { MapCategory } from '../shared/models/map-category'
 
@@ -14,7 +16,8 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-toolbar',
-  imports: [MatToolbarModule, CommonModule, ToolbarItemComponent, MatButtonToggleModule, ToolbarVariableComponent],
+  imports: [MatToolbarModule, CommonModule, ToolbarItemComponent, MatButtonToggleModule, ToolbarVariableComponent,
+    MatButtonModule,MatIconModule],
   templateUrl: './toolbar.component.html',
   styleUrl: './toolbar.component.css'
 })
@@ -47,6 +50,7 @@ export class ToolbarComponent implements AfterViewInit {
   selectedVariable?: MapVariable;
 
   hideSelection = signal(false);
+  isSidenavOpen?:boolean;
 
 
   getCategories(): void {
@@ -66,6 +70,10 @@ export class ToolbarComponent implements AfterViewInit {
       this.getCategories();
       this.getVariableList();
       this.cdr.detectChanges();
+
+      this.mapService.getSidenavOpen().subscribe((state)=>{
+        this.isSidenavOpen = state;
+      })
   }
 
   onToggleGroupChange(event:any) {
@@ -84,6 +92,10 @@ export class ToolbarComponent implements AfterViewInit {
     
   }
 
+  toggleSideNav() {
+    this.isSidenavOpen = !this.isSidenavOpen;
+    this.mapService.setSidenavOpen(this.isSidenavOpen);
+  }
   
 }
 
