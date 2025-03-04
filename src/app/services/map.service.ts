@@ -13,6 +13,8 @@ import {MAP_VARIABLE} from '../shared/mocks/mock-map-variable';
 import {Extent} from '../shared/models/extent'
 import {EXTENT} from '../shared/mocks/mock-extent';
 
+import Map from '@arcgis/core/Map';
+import MapView from '@arcgis/core/views/MapView';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer.js";
 import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol.js";
@@ -26,6 +28,8 @@ export class MapService {
   mapCategories: MapCategory[] = [];
   mapVariables: MapVariable[] = [];
   extents: Extent[] = EXTENT;
+  map!: Map;
+  mapView!: MapView;
 
   // selectedCategory!: MapCategory;
   // selectedVariable!: MapVariable;
