@@ -6,6 +6,9 @@ import {AsyncPipe} from '@angular/common';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { Extent } from '../shared/models/extent';
+import { MapService } from '../services/map.service';
+import { MatOptionSelectionChange } from '@angular/material/core';
 
 @Component({
   selector: 'app-search',
@@ -19,21 +22,32 @@ import {MatFormFieldModule} from '@angular/material/form-field';
   styleUrl: './search.component.css'
 })
 export class SearchComponent implements OnInit {
-  myControl = new FormControl('');
-  options: string[] = ['One', 'Two', 'Three'];
-  filteredOptions?: Observable<string[]>;
+  constructor(private mapService: MapService) { }
+
+  searchControl = new FormControl('');
+  filteredOptions?: Observable<Extent[]>;
+  extents: Extent[] = [];
 
   ngOnInit() {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
+    this.mapService.getExtents().subscribe((extents) => {
+      this.extents = extents
+      // console.log('EXTENTS',this.extents);
+    })
+
+    this.filteredOptions = this.searchControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || '')),
     );
   }
 
-  private _filter(value: string): string[] {
+  private _filter(value: string): Extent[] {
     const filterValue = value.toLowerCase();
+    // console.log(filterValue);
+    return this.extents.filter(option => option.name.toString().toLowerCase().includes(filterValue));
+  }
 
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+  onSelectionChange(event: MatOptionSelectionChange, option:Extent) {
+    console.log('selected:',option);
   }
 
 }
