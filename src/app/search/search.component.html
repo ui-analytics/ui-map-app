@@ -1,0 +1,20 @@
+<form class="search-form" (click)="onFormClick($event)">
+    <mat-form-field class="search-form-field">
+      <mat-label>Search for Location</mat-label>
+      <input type="text"
+             placeholder="Select a Location"
+             aria-label="Location"
+             matInput
+             [formControl]="searchControl"
+             [matAutocomplete]="auto">
+      
+      <mat-autocomplete #auto="matAutocomplete">
+        @for (option of filteredOptions | async; track option) {
+          <mat-option (onSelectionChange)="onSelectionChange($event,option)" [value]="option.name">
+            {{ option.name }}
+          </mat-option>
+        }
+      </mat-autocomplete>
+      
+    </mat-form-field>
+  </form>

@@ -10,6 +10,11 @@ import {MAP_CATEGORY} from '../shared/mocks/mock-map-category';
 import {MapVariable} from '../shared/models/map-variable'
 import {MAP_VARIABLE} from '../shared/mocks/mock-map-variable';
 
+import {Extent} from '../shared/models/extent'
+import {EXTENT} from '../shared/mocks/mock-extent';
+
+import Map from '@arcgis/core/Map';
+import MapView from '@arcgis/core/views/MapView';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer.js";
 import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol.js";
@@ -20,8 +25,12 @@ import ColorVariable from "@arcgis/core/renderers/visualVariables/ColorVariable.
 })
 export class MapService {
   project!: Project;
-  mapCategories: MapCategory[] = []
-  mapVariables: MapVariable[] = []
+  mapCategories: MapCategory[] = [];
+  mapVariables: MapVariable[] = [];
+  extents: Extent[] = EXTENT;
+  map!: Map;
+  mapView!: MapView;
+
   // selectedCategory!: MapCategory;
   // selectedVariable!: MapVariable;
   colorVariable: ColorVariable = new ColorVariable({
@@ -114,6 +123,10 @@ export class MapService {
 
   setSidenavOpen(state:boolean) {
     return this.isSidenavOpen.next(state);
+  }
+
+  getExtents() {
+    return of(this.extents);
   }
   
 }

@@ -2,7 +2,7 @@
     <app-toolbar [toolbar_name]="this.projectName" id="appToolbar"></app-toolbar>
     <mat-sidenav-container class="sidenav-container">
         <mat-sidenav #sidenav mode="side" [(opened)]="isSidenavOpen">
-          <p>Sidenav Content</p>
+          <app-search></app-search>
           <button mat-button (click)="toggleSidenav()">Close</button>
         </mat-sidenav>
         <mat-sidenav-content>

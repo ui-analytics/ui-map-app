@@ -12,10 +12,11 @@ import { MapCategory } from './shared/models/map-category';
 import { TimeSliderComponent } from "./time-slider/time-slider.component";
 
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { SearchComponent } from "./search/search.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MapComponent, ToolbarComponent, TimeSliderComponent,TimeSliderComponent,MatSidenavModule],
+  imports: [RouterOutlet, MapComponent, ToolbarComponent, TimeSliderComponent, TimeSliderComponent, MatSidenavModule, SearchComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

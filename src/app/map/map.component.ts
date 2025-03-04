@@ -40,21 +40,32 @@ export class MapComponent implements OnInit, OnDestroy {
     this.project = this.mapService.project;
     
 
-    this.map = new Map({
+    // this.map = new Map({
+    //   basemap: this.project.basemap
+    // });
+
+    this.mapService.map = new Map({
       basemap: this.project.basemap
     })
 
 
-    this.map.add(this.mapService.featureLayer);
+    this.mapService.map.add(this.mapService.featureLayer);
 
-    this.view = new MapView({
-      container,
-      map: this.map,
-      center: this.project.center,
-      zoom: this.project.zoom,
-    });
+    // this.view = new MapView({
+    //   container,
+    //   map: this.mapService.map,
+    //   center: this.project.center,
+    //   zoom: this.project.zoom,
+    // });
 
-    return this.view.when()
+    this.mapService.mapView = new MapView({
+          container,
+          map: this.mapService.map,
+          center: this.project.center,
+          zoom: this.project.zoom,
+        });
+
+    // return this.view.when()
 
   }
 
