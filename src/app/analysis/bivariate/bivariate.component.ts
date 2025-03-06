@@ -79,9 +79,13 @@ export class BivariateComponent implements OnInit {
     this.field2Control.reset();
   }
 
-  onSelectionChange(event: MatOptionSelectionChange, option:MapVariable) {
-    // console.log('selected:',option);
-    
+  onFieldChange(field: string, option:MapVariable) {
+    const selectedVariable = option.censusVariable
+    if (field == 'field1') {
+      this.field1Variable = selectedVariable;
+    } else if (field == 'field2') {
+      this.field2Variable = selectedVariable;
+    } 
   }
 
   onRunClick(event:any) {

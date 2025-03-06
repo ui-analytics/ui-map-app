@@ -16,7 +16,7 @@
           
           <mat-autocomplete #auto1="matAutocomplete">
             @for (option of field1Filter | async; track option) {
-              <mat-option (onSelectionChange)="onSelectionChange($event,option)" [value]="option.name">
+              <mat-option (onSelectionChange)="onFieldChange('field1',option)" [value]="option.name">
                 {{ option.name }}
               </mat-option>
             }
@@ -36,7 +36,7 @@
             
             <mat-autocomplete #auto2="matAutocomplete">
               @for (option of field2Filter | async; track option) {
-                <mat-option (onSelectionChange)="onSelectionChange($event,option)" [value]="option.name">
+                <mat-option (onSelectionChange)="onFieldChange('field2',option)" [value]="option.name">
                   {{ option.name }}
                 </mat-option>
               }
