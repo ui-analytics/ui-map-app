@@ -1,0 +1,50 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Bivariate Correlation</mat-card-title>
+    </mat-card-header>
+
+    <form class="bivariate-form">
+        <mat-form-field class="bivariate-form-field">
+          <mat-label>Field 1</mat-label>
+          <input type="text"
+                 placeholder="Select a Field"
+                 aria-label="Field"
+                 matInput
+                 [formControl]="field1Control"
+                 [matAutocomplete]="auto1"
+                 (click)="onForm1Click($event)">
+          
+          <mat-autocomplete #auto1="matAutocomplete">
+            @for (option of field1Filter | async; track option) {
+              <mat-option (onSelectionChange)="onSelectionChange($event,option)" [value]="option.name">
+                {{ option.name }}
+              </mat-option>
+            }
+          </mat-autocomplete>
+          
+        </mat-form-field>
+
+        <mat-form-field class="bivariate-form-field">
+            <mat-label>Field 2</mat-label>
+            <input type="text"
+                   placeholder="Select a Field"
+                   aria-label="Field"
+                   matInput
+                   [formControl]="field2Control"
+                   [matAutocomplete]="auto2"
+                   (click)="onForm2Click($event)">
+            
+            <mat-autocomplete #auto2="matAutocomplete">
+              @for (option of field2Filter | async; track option) {
+                <mat-option (onSelectionChange)="onSelectionChange($event,option)" [value]="option.name">
+                  {{ option.name }}
+                </mat-option>
+              }
+            </mat-autocomplete>
+            
+          </mat-form-field>
+          <div id="button-div">
+                <button id="button" (click)="onRunClick($event)" mat-flat-button>Run Analysis</button>
+          </div>
+      </form>
+</mat-card>

@@ -3,6 +3,7 @@
     <mat-sidenav-container class="sidenav-container">
         <mat-sidenav #sidenav mode="side" [(opened)]="isSidenavOpen">
           <app-search></app-search>
+          <app-bivariate></app-bivariate>
           <button mat-button (click)="toggleSidenav()">Close</button>
         </mat-sidenav>
         <mat-sidenav-content>
