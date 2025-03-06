@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AsyncPipe} from '@angular/common';
-import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule,Validators} from '@angular/forms';
 import {Observable, Subscription} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 
@@ -13,6 +13,9 @@ import {MatInputModule} from '@angular/material/input';
 
 import { MapService } from '../../services/map.service';
 import { MapVariable } from '../../shared/models/map-variable';
+
+
+import * as relationshipRendererCreator from "@arcgis/core/smartMapping/renderers/relationship.js";
 
 
 @Component({
@@ -29,13 +32,16 @@ export class BivariateComponent implements OnInit {
 
   constructor(private mapService: MapService) {}
 
-  field1Control = new FormControl('');
+  field1Control = new FormControl('',Validators.required);
   field1Filter?: Observable<MapVariable[]>;
 
-  field2Control = new FormControl('');
+  field2Control = new FormControl('',Validators.required);
   field2Filter?: Observable<MapVariable[]>;
 
   variables: MapVariable[] = [];
+
+  field1Variable: string = '';
+  field2Variable: string = '';
 
   ngOnInit(): void {
     // console.log(this.mapService.featureLayer)
@@ -90,6 +96,27 @@ export class BivariateComponent implements OnInit {
 
   onRunClick(event:any) {
     // console.log(event);
+    console.log(this.field1Variable);
+    const params = {
+      layer: this.mapService.featureLayer,
+      view: this.mapService.mapView,
+      field1: {
+        field: this.field1Variable
+      },
+      field2: {
+        field: this.field2Variable
+      },
+      focus: "HH", // changes orientation of the legend
+      numClasses: 2 // 2x2 grid (value can also be 3 or 4)
+    };
+    
+    // // That's it! Now apply the renderer to your layer
+    
+    relationshipRendererCreator.createRenderer(params).then((response) => {
+      this.mapService.featureLayer.renderer = response.renderer;
+    });
+    
+    
   }  
 
 }
