@@ -49,8 +49,9 @@ export class SearchComponent implements OnInit {
 
   private _filter(value: string): Extent[] {
     const filterValue = value.toLowerCase();
-    // console.log(filterValue);
-    return this.extents.filter(option => option.name.toString().toLowerCase().includes(filterValue));
+    const filtered = this.extents.filter(option => option.name.toString().toLowerCase().includes(filterValue));
+
+    return filtered
   }
 
   onSelectionChange(event: MatOptionSelectionChange, option:Extent) {
