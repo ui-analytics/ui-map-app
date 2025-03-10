@@ -119,11 +119,10 @@ export class BivariateComponent implements OnInit {
       field2: {
         field: this.field2Variable
       },
-      focus: "HH", // changes orientation of the legend
-      numClasses: 2 // 2x2 grid (value can also be 3 or 4)
+      focus: "HH", 
+      numClasses: 2 
     };
     
-    // // That's it! Now apply the renderer to your layer
     
     relationshipRendererCreator.createRenderer(params).then((response) => {
       this.mapService.featureLayer.renderer = response.renderer;
