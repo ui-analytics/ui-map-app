@@ -52,6 +52,8 @@ export class MapComponent implements OnInit, OnDestroy {
 
     this.mapService.map.add(this.mapService.censusTractLayer);
 
+    this.mapService.map.add(this.mapService.countyLayer);
+
     
     this.mapService.mapView = new MapView({
           container,
@@ -77,6 +79,8 @@ export class MapComponent implements OnInit, OnDestroy {
     let basemapGallery = new BasemapGallery({
       view: this.mapService.mapView
     });
+
+    // this.mapService.mapView.ui.add(basemapGallery, "top-right");
 
   }
 

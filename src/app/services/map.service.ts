@@ -87,6 +87,12 @@ export class MapService {
     renderer: this.defaultRenderer
   });
 
+  countyLayer: FeatureLayer = new FeatureLayer ({
+    portalItem: {
+      id: '50874e607e434667bfb36d759756be6a'
+    }
+  })
+
   private currentCategory = new BehaviorSubject<MapCategory>(MAP_CATEGORY[0]);
   private currentVariable = new BehaviorSubject<MapVariable>(MAP_VARIABLE[0]);
   private isSidenavOpen = new BehaviorSubject<boolean>(false);
