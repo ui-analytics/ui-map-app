@@ -4,6 +4,8 @@ import Map from '@arcgis/core/Map';
 import MapView from '@arcgis/core/views/MapView';
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
 import Home from "@arcgis/core/widgets/Home.js";
+import Legend from "@arcgis/core/widgets/Legend.js";
+import BasemapGallery from "@arcgis/core/widgets/BasemapGallery.js";
 
 import { MapService } from '../services/map.service'
 
@@ -21,8 +23,6 @@ export class MapComponent implements OnInit, OnDestroy {
   public map?: Map;
   public censusTractsFL?: FeatureLayer;
   public censusDataFl?: FeatureLayer;
-  
-  homeWidget: Home = new Home({view:undefined}); 
 
   @ViewChild('mapViewNode', { static: true }) private mapViewEl!: ElementRef;
 
@@ -70,9 +70,27 @@ export class MapComponent implements OnInit, OnDestroy {
           zoom: this.project.zoom,
         });
 
-    this.homeWidget.view = this.mapService.mapView;
+    let homeWidget =  new Home({
+      view: this.mapService.mapView
+    });  
 
-    this.mapService.mapView.ui.add(this.homeWidget,'top-left')
+    
+
+    this.mapService.mapView.ui.add(homeWidget,'top-left')
+
+    let legend = new Legend({
+      view: this.mapService.mapView
+    });
+    
+    this.mapService.mapView.ui.add(legend, "bottom-right");
+
+    let basemapGallery = new BasemapGallery({
+      view: this.mapService.mapView
+    });
+
+    
+    // this.mapService.mapView.ui.add(basemapGallery, {
+    //   position: "top-right"});
       
 
     // return this.view.when()
