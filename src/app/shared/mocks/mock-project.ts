@@ -4,7 +4,7 @@ import {MapToolCategory} from '../enums/map-tool-category.enum';
 export const PROJECT: Project[] = [{
     projectId: 1,
     name: 'Regional Explorer',
-    basemap: 'dark-gray-3d',
+    basemap: 'dark-gray',
     center: [-80.7366, 35.3081],
     zoom: 8,
     maps: [1],
