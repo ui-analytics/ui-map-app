@@ -50,7 +50,7 @@
             
           </mat-form-field>
           <div id="button-div">
-                <button id="button" (click)="onRunClick($event)" mat-flat-button>Run Analysis</button>
+                <button id="button" (click)="onRunClick($event)" [disabled]="isFormInvalid()" mat-flat-button>Run Analysis</button>
           </div>
       </form>
 </mat-card>
