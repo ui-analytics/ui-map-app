@@ -13,6 +13,8 @@ import {MAP_VARIABLE} from '../shared/mocks/mock-map-variable';
 import {Extent} from '../shared/models/extent'
 import {EXTENT} from '../shared/mocks/mock-extent';
 
+import { MapMode } from '../shared/enums/map-mode.enum';
+
 import Map from '@arcgis/core/Map';
 import MapView from '@arcgis/core/views/MapView';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
@@ -65,16 +67,16 @@ export class MapService {
   });
 
   defaultRenderer = new SimpleRenderer({
-      symbol: new SimpleFillSymbol({
-        color: [ 51,51, 204, 0.9 ],
-        style: "solid",
-        outline: {
-          color: [0,0,0, 0.2],
-          width: "2px"
-        }
-      }),
-      visualVariables: [this.colorVariable]
-    })
+        symbol: new SimpleFillSymbol({
+          color: [ 51,51, 204, 0.9 ],
+          style: "solid",
+          outline: {
+            color: [0,0,0, 0.2],
+            width: "2px"
+          }
+        }),
+        visualVariables: [this.colorVariable]
+      })
 
   featureLayer: FeatureLayer = new FeatureLayer({
     portalItem: {
