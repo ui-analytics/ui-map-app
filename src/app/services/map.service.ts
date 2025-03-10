@@ -82,7 +82,7 @@ export class MapService {
     portalItem: {
       id: 'b7a386ae3c8b404bb856631f936a1e04'
     },
-    opacity: .65,
+    opacity: .85,
     renderer: this.defaultRenderer
   });
 
