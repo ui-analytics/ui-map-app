@@ -1,0 +1,17 @@
+#bivariate-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.bivariate-form-field {
+    width: 100%;
+}
+
+#button-div {
+    display: flex;
+    justify-content: center;
+}
+
+#button {
+    width:200px;
+}

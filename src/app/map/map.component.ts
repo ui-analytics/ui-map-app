@@ -3,6 +3,9 @@ import { Component, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/co
 import Map from '@arcgis/core/Map';
 import MapView from '@arcgis/core/views/MapView';
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
+import Home from "@arcgis/core/widgets/Home.js";
+import Legend from "@arcgis/core/widgets/Legend.js";
+import BasemapGallery from "@arcgis/core/widgets/BasemapGallery.js";
 
 import { MapService } from '../services/map.service'
 
@@ -31,6 +34,8 @@ export class MapComponent implements OnInit, OnDestroy {
     this.variableSubscription = this.mapService.getCurrentVariable().subscribe((value) => {
       this.mapService.colorVariable.field = value.censusVariable;
     });
+
+    
   }
 
   async initializeMap(): Promise<any> {
@@ -64,6 +69,29 @@ export class MapComponent implements OnInit, OnDestroy {
           center: this.project.center,
           zoom: this.project.zoom,
         });
+
+    let homeWidget =  new Home({
+      view: this.mapService.mapView
+    });  
+
+    
+
+    this.mapService.mapView.ui.add(homeWidget,'top-left')
+
+    let legend = new Legend({
+      view: this.mapService.mapView
+    });
+    
+    this.mapService.mapView.ui.add(legend, "bottom-right");
+
+    let basemapGallery = new BasemapGallery({
+      view: this.mapService.mapView
+    });
+
+    
+    // this.mapService.mapView.ui.add(basemapGallery, {
+    //   position: "top-right"});
+      
 
     // return this.view.when()
 
