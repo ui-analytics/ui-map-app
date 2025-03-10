@@ -64,13 +64,7 @@ export class MapService {
     ]
   });
 
-  featureLayer: FeatureLayer = new FeatureLayer({
-    portalItem: {
-      id: 'b7a386ae3c8b404bb856631f936a1e04'
-    },
-    // definitionExpression:'year = 2021',
-    opacity: 1,
-    renderer: new SimpleRenderer({
+  defaultRenderer = new SimpleRenderer({
       symbol: new SimpleFillSymbol({
         color: [ 51,51, 204, 0.9 ],
         style: "solid",
@@ -81,6 +75,14 @@ export class MapService {
       }),
       visualVariables: [this.colorVariable]
     })
+
+  featureLayer: FeatureLayer = new FeatureLayer({
+    portalItem: {
+      id: 'b7a386ae3c8b404bb856631f936a1e04'
+    },
+    // definitionExpression:'year = 2021',
+    opacity: 1,
+    renderer: this.defaultRenderer
   });
 
   private currentCategory = new BehaviorSubject<MapCategory>(MAP_CATEGORY[0]);
