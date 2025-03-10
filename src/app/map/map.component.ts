@@ -3,6 +3,7 @@ import { Component, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/co
 import Map from '@arcgis/core/Map';
 import MapView from '@arcgis/core/views/MapView';
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
+import Home from "@arcgis/core/widgets/Home.js";
 
 import { MapService } from '../services/map.service'
 
@@ -20,6 +21,8 @@ export class MapComponent implements OnInit, OnDestroy {
   public map?: Map;
   public censusTractsFL?: FeatureLayer;
   public censusDataFl?: FeatureLayer;
+  
+  homeWidget: Home = new Home({view:undefined}); 
 
   @ViewChild('mapViewNode', { static: true }) private mapViewEl!: ElementRef;
 
@@ -31,6 +34,8 @@ export class MapComponent implements OnInit, OnDestroy {
     this.variableSubscription = this.mapService.getCurrentVariable().subscribe((value) => {
       this.mapService.colorVariable.field = value.censusVariable;
     });
+
+    
   }
 
   async initializeMap(): Promise<any> {
@@ -64,6 +69,11 @@ export class MapComponent implements OnInit, OnDestroy {
           center: this.project.center,
           zoom: this.project.zoom,
         });
+
+    this.homeWidget.view = this.mapService.mapView;
+
+    this.mapService.mapView.ui.add(this.homeWidget,'top-left')
+      
 
     // return this.view.when()
 
