@@ -78,7 +78,7 @@ export class MapService {
         visualVariables: [this.colorVariable]
       })
 
-  featureLayer: FeatureLayer = new FeatureLayer({
+  censusTractLayer: FeatureLayer = new FeatureLayer({
     portalItem: {
       id: 'b7a386ae3c8b404bb856631f936a1e04'
     },

@@ -38,12 +38,12 @@ export class TimeSliderComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.mapService.featureLayer.definitionExpression = `year = ${this.value}`;
+    this.mapService.censusTractLayer.definitionExpression = `year = ${this.value}`;
   }
 
   onValueChange(event:any): void{
     this.value = event;
-    this.mapService.featureLayer.definitionExpression = `year = ${this.value}`;
+    this.mapService.censusTractLayer.definitionExpression = `year = ${this.value}`;
   }
 }
 

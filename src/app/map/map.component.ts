@@ -50,7 +50,7 @@ export class MapComponent implements OnInit, OnDestroy {
     })
 
 
-    this.mapService.map.add(this.mapService.featureLayer);
+    this.mapService.map.add(this.mapService.censusTractLayer);
 
     
     this.mapService.mapView = new MapView({
