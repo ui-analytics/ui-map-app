@@ -111,7 +111,7 @@ export class BivariateComponent implements OnInit {
 
     console.log(this.field1Variable);
     const params = {
-      layer: this.mapService.featureLayer,
+      layer: this.mapService.censusTractLayer,
       view: this.mapService.mapView,
       field1: {
         field: this.field1Variable
@@ -125,7 +125,7 @@ export class BivariateComponent implements OnInit {
     
     
     relationshipRendererCreator.createRenderer(params).then((response) => {
-      this.mapService.featureLayer.renderer = response.renderer;
+      this.mapService.censusTractLayer.renderer = response.renderer;
     });
     
     
@@ -137,7 +137,7 @@ export class BivariateComponent implements OnInit {
       this.mapService.setMapMode(MapMode.bivariate);
     } else {
       this.mapService.setMapMode(MapMode.default);
-      this.mapService.featureLayer.renderer = this.mapService.defaultRenderer;
+      this.mapService.censusTractLayer.renderer = this.mapService.defaultRenderer;
     }
     this.checked = event.checked;
   }

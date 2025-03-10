@@ -78,14 +78,19 @@ export class MapService {
         visualVariables: [this.colorVariable]
       })
 
-  featureLayer: FeatureLayer = new FeatureLayer({
+  censusTractLayer: FeatureLayer = new FeatureLayer({
     portalItem: {
       id: 'b7a386ae3c8b404bb856631f936a1e04'
     },
-    // definitionExpression:'year = 2021',
-    opacity: 1,
+    opacity: .65,
     renderer: this.defaultRenderer
   });
+
+  countyLayer: FeatureLayer = new FeatureLayer ({
+    portalItem: {
+      id: '50874e607e434667bfb36d759756be6a'
+    }
+  })
 
   private currentCategory = new BehaviorSubject<MapCategory>(MAP_CATEGORY[0]);
   private currentVariable = new BehaviorSubject<MapVariable>(MAP_VARIABLE[0]);
