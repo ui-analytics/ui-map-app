@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AsyncPipe} from '@angular/common';
+import {AsyncPipe,CommonModule} from '@angular/common';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule,Validators} from '@angular/forms';
 import {Observable, Subscription} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
