@@ -10,9 +10,11 @@ import { MatCardModule }  from '@angular/material/card'
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 import { MapService } from '../../services/map.service';
 import { MapVariable } from '../../shared/models/map-variable';
+import { MapMode } from '../../shared/enums/map-mode.enum';
 
 
 import * as relationshipRendererCreator from "@arcgis/core/smartMapping/renderers/relationship.js";
@@ -20,9 +22,9 @@ import * as relationshipRendererCreator from "@arcgis/core/smartMapping/renderer
 
 @Component({
   selector: 'app-bivariate',
-  imports: [MatButtonModule,MatCardModule,MatFormFieldModule,
+  imports: [CommonModule,MatButtonModule,MatCardModule,MatFormFieldModule,
     MatAutocompleteModule,AsyncPipe,MatInputModule,
-    FormsModule,ReactiveFormsModule],
+    FormsModule,ReactiveFormsModule,MatSlideToggleModule],
   templateUrl: './bivariate.component.html',
   styleUrl: './bivariate.component.css'
 })
@@ -43,6 +45,8 @@ export class BivariateComponent implements OnInit {
 
   field1Variable: string = '';
   field2Variable: string = '';
+  checked: boolean = false;
+  hideToggle: boolean = true;
 
   ngOnInit(): void {
     // console.log(this.mapService.featureLayer)
@@ -142,6 +146,9 @@ export class BivariateComponent implements OnInit {
   isFormInvalid() {
     return (this.field1Control.invalid || this.field2Control.invalid);
   }
+
+  isToggled() {
+    return this.checked
   }  
 
 }
