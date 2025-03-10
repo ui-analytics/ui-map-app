@@ -29,6 +29,7 @@ import * as relationshipRendererCreator from "@arcgis/core/smartMapping/renderer
 export class BivariateComponent implements OnInit {
 
   private variableSubscription?:Subscription;
+  private mapModeSubscription?:Subscription;
 
   constructor(private mapService: MapService) {}
 
@@ -68,6 +69,12 @@ export class BivariateComponent implements OnInit {
       map(value => this._filter(value || '')),
     );
 
+    this.mapModeSubscription = this.mapService.getMapMode().subscribe((mode)=> {
+      if (mode == MapMode.bivariate) {
+        this.checked = true;
+      }
+    });
+
 
   }
 
@@ -95,7 +102,9 @@ export class BivariateComponent implements OnInit {
   }
 
   onRunClick(event:any) {
-    // console.log(event);
+    
+    this.mapService.setMapMode(MapMode.bivariate);
+
     console.log(this.field1Variable);
     const params = {
       layer: this.mapService.featureLayer,
@@ -116,6 +125,19 @@ export class BivariateComponent implements OnInit {
       this.mapService.featureLayer.renderer = response.renderer;
     });
     
+    
+  } 
+  
+  onToggleChange(event:any) {
+    
+    if (event.checked) {
+      this.mapService.setMapMode(MapMode.bivariate);
+    } else {
+      this.mapService.setMapMode(MapMode.default);
+      this.mapService.featureLayer.renderer = this.mapService.defaultRenderer;
+    }
+    this.checked = event.checked;
+  }
     
   isFormInvalid() {
     return (this.field1Control.invalid || this.field2Control.invalid);
