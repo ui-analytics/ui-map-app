@@ -1,6 +1,12 @@
 <mat-card>
-    <mat-card-header>
+    <mat-card-header id="bivariate-header">
         <mat-card-title>Bivariate Correlation</mat-card-title>
+        <mat-slide-toggle *ngIf="isToggled()"
+          id="bivariate-toggle"
+          [checked]="checked"
+          (change)="onToggleChange($event)"
+          >
+      </mat-slide-toggle>
     </mat-card-header>
 
     <form class="bivariate-form">
