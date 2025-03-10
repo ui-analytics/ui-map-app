@@ -141,13 +141,13 @@ export class BivariateComponent implements OnInit {
     }
     this.checked = event.checked;
   }
-    
+
   isFormInvalid() {
     return (this.field1Control.invalid || this.field2Control.invalid);
   }
 
   isToggled() {
     return this.checked
-  }  
+  }
 
 }
