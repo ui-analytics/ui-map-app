@@ -45,10 +45,6 @@ export class MapComponent implements OnInit, OnDestroy {
     this.project = this.mapService.project;
     
 
-    // this.map = new Map({
-    //   basemap: this.project.basemap
-    // });
-
     this.mapService.map = new Map({
       basemap: this.project.basemap
     })
@@ -56,13 +52,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
     this.mapService.map.add(this.mapService.featureLayer);
 
-    // this.view = new MapView({
-    //   container,
-    //   map: this.mapService.map,
-    //   center: this.project.center,
-    //   zoom: this.project.zoom,
-    // });
-
+    
     this.mapService.mapView = new MapView({
           container,
           map: this.mapService.map,
@@ -87,13 +77,6 @@ export class MapComponent implements OnInit, OnDestroy {
     let basemapGallery = new BasemapGallery({
       view: this.mapService.mapView
     });
-
-    
-    // this.mapService.mapView.ui.add(basemapGallery, {
-    //   position: "top-right"});
-      
-
-    // return this.view.when()
 
   }
 
