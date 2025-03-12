@@ -43,8 +43,8 @@ export class BivariateComponent implements OnInit {
 
   variables: MapVariable[] = [];
 
-  field1Variable: string = '';
-  field2Variable: string = '';
+  field1Variable: MapVariable = this.variables[0];
+  field2Variable: MapVariable = this.variables[1];
   checked: boolean = false;
   hideToggle: boolean = true;
 
@@ -97,7 +97,7 @@ export class BivariateComponent implements OnInit {
   }
 
   onFieldChange(field: string, option:MapVariable) {
-    const selectedVariable = option.censusVariable
+    const selectedVariable = option
     if (field == 'field1') {
       this.field1Variable = selectedVariable;
     } else if (field == 'field2') {
@@ -109,15 +109,19 @@ export class BivariateComponent implements OnInit {
     
     this.mapService.setMapMode(MapMode.bivariate);
 
-    console.log(this.field1Variable);
+    console.log('OnRunClick',this.field1Variable);
+    console.log('OnRunClick',this.field2Variable);
+
     const params = {
       layer: this.mapService.censusTractLayer,
       view: this.mapService.mapView,
       field1: {
-        field: this.field1Variable
+        field: this.field1Variable.censusVariable,
+        label: this.field1Variable.name
       },
       field2: {
-        field: this.field2Variable
+        field: this.field2Variable.censusVariable,
+        label: this.field2Variable.name
       },
       focus: "HH", 
       numClasses: 3 
