@@ -120,7 +120,7 @@ export class BivariateComponent implements OnInit {
         field: this.field2Variable
       },
       focus: "HH", 
-      numClasses: 2 
+      numClasses: 3 
     };
     
     
