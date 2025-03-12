@@ -60,6 +60,7 @@ export class MapComponent implements OnInit, OnDestroy {
           map: this.mapService.map,
           center: this.project.center,
           zoom: this.project.zoom,
+          constraints:{minZoom:this.project.zoom-1}
         });
 
     let homeWidget =  new Home({
