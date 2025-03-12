@@ -1,12 +1,14 @@
 <div class="container">
     <app-toolbar [toolbar_name]="this.projectName" id="appToolbar"></app-toolbar>
+    <app-search #appSearch></app-search>
     <mat-sidenav-container class="sidenav-container">
         <mat-sidenav #sidenav mode="side" [(opened)]="isSidenavOpen">
-          <app-search></app-search>
+          
           <app-bivariate></app-bivariate>
           <button mat-button (click)="toggleSidenav()">Close</button>
         </mat-sidenav>
         <mat-sidenav-content>
+            
             <app-map id="appMap"></app-map>
             <app-time-slider id="appTime"></app-time-slider>
         </mat-sidenav-content>

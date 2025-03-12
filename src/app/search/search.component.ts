@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
@@ -24,16 +24,17 @@ import ColorVariable from "@arcgis/core/renderers/visualVariables/ColorVariable.
     MatInputModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-    AsyncPipe,],
+    AsyncPipe],
   templateUrl: './search.component.html',
   styleUrl: './search.component.css'
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, AfterViewInit  {
   constructor(private mapService: MapService) { }
 
   searchControl = new FormControl('');
   filteredOptions?: Observable<Extent[]>;
   extents: Extent[] = [];
+  @ViewChild('searchbox') inputElement!: ElementRef;
 
   ngOnInit() {
     this.mapService.getExtents().subscribe((extents) => {
@@ -47,11 +48,15 @@ export class SearchComponent implements OnInit {
     );
   }
 
+  ngAfterViewInit() {
+    // this.inputElement.nativeElement.focus();
+  }
+
   private _filter(value: string): Extent[] {
     const filterValue = value.toLowerCase();
     const filtered = this.extents.filter(option => option.name.toString().toLowerCase().includes(filterValue));
 
-    return filtered
+    return filtered;
   }
 
   onSelectionChange(event: MatOptionSelectionChange, option:Extent) {

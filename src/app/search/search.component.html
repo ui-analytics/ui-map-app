@@ -1,7 +1,8 @@
 <form class="search-form" (click)="onFormClick($event)">
     <mat-form-field class="search-form-field">
       <mat-label>Search for Location</mat-label>
-      <input type="text"
+      <input #searchbox
+             type="text"
              placeholder="Select a Location"
              aria-label="Location"
              matInput

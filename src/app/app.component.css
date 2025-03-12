@@ -26,3 +26,11 @@ mat-sidenav {
   width: 350px;
   padding: 10px;
 }
+
+app-search {
+  position: absolute;
+  width: 300px;
+  right: 15px;
+  top: 50px;
+  z-index: 3;
+}
