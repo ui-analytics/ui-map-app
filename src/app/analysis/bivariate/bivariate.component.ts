@@ -18,6 +18,7 @@ import { MapMode } from '../../shared/enums/map-mode.enum';
 
 
 import * as relationshipRendererCreator from "@arcgis/core/smartMapping/renderers/relationship.js";
+import * as relationshipSchemes from "@arcgis/core/smartMapping/symbology/relationship.js";
 
 
 @Component({
@@ -47,6 +48,14 @@ export class BivariateComponent implements OnInit {
   field2Variable: MapVariable = this.variables[1];
   checked: boolean = false;
   hideToggle: boolean = true;
+
+  schemes = relationshipSchemes.getSchemes({
+        basemap: "gray-vector",
+        geometryType: "polygon"
+      });
+
+  // possible schemes - 9, 11, 14, 15, 17, 19, 20
+  bivariateScheme = this.schemes.secondarySchemes.filter((scheme) => scheme.name == 'Strawberry Tulips')[0]; 
 
   ngOnInit(): void {
     // console.log(this.mapService.featureLayer)
@@ -79,7 +88,7 @@ export class BivariateComponent implements OnInit {
       }
     });
 
-
+    // console.log('SCHEMES',this.schemes);
   }
 
   private _filter(value: string): MapVariable[] {
@@ -109,8 +118,8 @@ export class BivariateComponent implements OnInit {
     
     this.mapService.setMapMode(MapMode.bivariate);
 
-    console.log('OnRunClick',this.field1Variable);
-    console.log('OnRunClick',this.field2Variable);
+    // console.log('OnRunClick',this.field1Variable);
+    // console.log('OnRunClick',this.field2Variable);
 
     const params = {
       layer: this.mapService.censusTractLayer,
@@ -124,7 +133,8 @@ export class BivariateComponent implements OnInit {
         label: this.field2Variable.name
       },
       focus: "HH", 
-      numClasses: 3 
+      numClasses: 3,
+      relationshipScheme: this.bivariateScheme
     };
     
     
