@@ -21,8 +21,6 @@ import { Project } from '../shared/models/project';
 export class MapComponent implements OnInit, OnDestroy {
   public view: any = null;
   public map?: Map;
-  public censusTractsFL?: FeatureLayer;
-  public censusDataFl?: FeatureLayer;
 
   @ViewChild('mapViewNode', { static: true }) private mapViewEl!: ElementRef;
 
