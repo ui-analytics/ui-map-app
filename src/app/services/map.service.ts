@@ -4,6 +4,9 @@ import {from, Observable, Observer, of, BehaviorSubject} from 'rxjs';
 import {Project} from '../shared/models/project';
 import {PROJECT} from '../shared/mocks/mock-project';
 
+import {Map as ModelMap} from '../shared/models/map'
+import {MAPS} from '../shared/mocks/mock-map';
+
 import {MapCategory} from '../shared/models/map-category'
 import {MAP_CATEGORY} from '../shared/mocks/mock-map-category';
 
@@ -50,24 +53,11 @@ export class MapService {
         visualVariables: [this.colorVariable]
       })
 
-  censusTractLayer: FeatureLayer = new FeatureLayer({
-    portalItem: {
-      id: 'b7a386ae3c8b404bb856631f936a1e04'
-    },
-    opacity: .85,
-    renderer: this.defaultRenderer
-  });
-
-  countyLayer: FeatureLayer = new FeatureLayer ({
-    portalItem: {
-      id: '50874e607e434667bfb36d759756be6a'
-    }
-  })
-
   private currentCategory = new BehaviorSubject<MapCategory>(MAP_CATEGORY[0]);
   private currentVariable = new BehaviorSubject<MapVariable>(MAP_VARIABLE[0]);
   private isSidenavOpen = new BehaviorSubject<boolean>(false);
   private mapMode = new BehaviorSubject<MapMode>(MapMode.default);
+  projectMaps?: Observable<ModelMap[]>;
 
   constructor() { }
 
@@ -117,6 +107,15 @@ export class MapService {
 
   getExtents() {
     return of(this.extents);
+  }
+
+  getMaps(): Observable<ModelMap[]> {
+    const mapIds = this.project.maps.map(m => m.mapId);
+    return of(MAPS.filter(map => mapIds.includes(map.mapId)));
+  }
+
+  updateMaps(maps:ModelMap[]) {
+    this.projectMaps = of(maps)
   }
   
 }
