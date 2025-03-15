@@ -21,6 +21,7 @@ import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer.js";
 import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol.js";
 import ColorVariable from "@arcgis/core/renderers/visualVariables/ColorVariable.js";
+import Legend from "@arcgis/core/widgets/Legend.js";
 
 @Injectable({
   providedIn: 'root'
@@ -32,39 +33,10 @@ export class MapService {
   extents: Extent[] = EXTENT;
   map!: Map;
   mapView!: MapView;
-
-  // selectedCategory!: MapCategory;
-  // selectedVariable!: MapVariable;
-  colorVariable: ColorVariable = new ColorVariable({
-    normalizationField: 'mfagetote',
-    stops: [
-      {
-        value: .01, 
-        color: "#eefae3", 
-        label: "1% or lower"
-      },
-      {
-        value: .04, 
-        color: "#bae4bc", 
-        label: "4% or higher" 
-      },
-      {
-        value: .08, 
-        color: "#7bccc4", 
-        label: "8% or higher" 
-      },
-      {
-        value: .12, 
-        color: "#43a2ca", 
-        label: "12% or higher" 
-      },
-      {
-        value: .16, 
-        color: "#0868ac", 
-        label: "16% or higher"
-      }
-    ]
-  });
+  colorVariable: ColorVariable = new ColorVariable();
+  colors: string[] = ["#eefae3","#bae4bc","#bae4bc","#43a2ca","#0868ac"];
+  variableFL:FeatureLayer = new FeatureLayer();
+  legend:Legend = new Legend()
 
   defaultRenderer = new SimpleRenderer({
         symbol: new SimpleFillSymbol({
