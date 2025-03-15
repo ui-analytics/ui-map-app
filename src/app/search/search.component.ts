@@ -60,7 +60,7 @@ export class SearchComponent implements OnInit, AfterViewInit  {
   }
 
   onSelectionChange(event: MatOptionSelectionChange, option:Extent) {
-    console.log('selected:',option);
+    // console.log('selected:',option);
     // TODO: find better way to remove graphics layers
     this.mapService.map.layers.forEach((layer) => {
       if (layer.type === "graphics") {
