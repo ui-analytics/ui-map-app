@@ -6,6 +6,7 @@ import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
 import Home from "@arcgis/core/widgets/Home.js";
 import BasemapGallery from "@arcgis/core/widgets/BasemapGallery.js";
 import classBreaks from "@arcgis/core/smartMapping/statistics/classBreaks.js";
+import ColorVariable from '@arcgis/core/renderers/visualVariables/ColorVariable';
 
 import { MapService } from '../services/map.service'
 
@@ -15,7 +16,8 @@ import { Project } from '../shared/models/project';
 import { MapType } from '../shared/enums/map-type.enum';
 import {Map as ModelMap} from '../shared/models/map'
 import { MapVariable } from '../shared/models/map-variable';
-import ColorVariable from '@arcgis/core/renderers/visualVariables/ColorVariable';
+import { MapMode } from '../shared/enums/map-mode.enum';
+
 
 @Component({
   selector: 'app-map',
@@ -134,12 +136,13 @@ export class MapComponent implements OnInit, OnDestroy {
             stops: breaks
           })
 
-          this.mapService.defaultRenderer.visualVariables = [colorVariable];
-
-          this.mapService.variableFL.renderer = this.mapService.defaultRenderer;
-
-          this.mapService.legend.layerInfos = [{layer:this.mapService.variableFL}]
-        
+          this.mapService.getMapMode().subscribe((mode)=> {
+                if (mode == MapMode.default) {
+                  this.mapService.defaultRenderer.visualVariables = [colorVariable];
+                  this.mapService.variableFL.renderer = this.mapService.defaultRenderer;
+                  this.mapService.legend.layerInfos = [{layer:this.mapService.variableFL}]
+                }
+              });
         })
       })
       return r;
