@@ -21,7 +21,7 @@ export class TimeSliderComponent implements OnInit {
     this.variableSubscription = this.mapService.getCurrentVariable().subscribe((variable) => {
       // create in format needed for time slider
       this.yearsAvailable = variable.yearsAvailable.map(year => ({ value: year }));
-      console.log(variable.name, this.yearsAvailable)
+      // console.log(variable.name, this.yearsAvailable)
       // set the slider steps array
       this.options = {
         stepsArray: this.yearsAvailable
@@ -38,12 +38,12 @@ export class TimeSliderComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.mapService.censusTractLayer.definitionExpression = `year = ${this.value}`;
+    this.mapService.variableFL.definitionExpression = `year = ${this.value}`;
   }
 
   onValueChange(event:any): void{
     this.value = event;
-    this.mapService.censusTractLayer.definitionExpression = `year = ${this.value}`;
+    this.mapService.variableFL.definitionExpression = `year = ${this.value}`;
   }
 }
 

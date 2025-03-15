@@ -82,7 +82,7 @@ export class SearchComponent implements OnInit, AfterViewInit  {
     query.where = `crdt_unique_id = '${option.crdt_unique_id}'`;
     // query.outSpatialReference = { wkid: option.wkid };
     query.returnGeometry = true;
-    this.mapService.censusTractLayer.queryFeatures(query).then((results) => {
+    this.mapService.variableFL.queryFeatures(query).then((results) => {
       const graphicsLayer = new GraphicsLayer();
       const graphics = results.features.map((feature) => {
         return new Graphic({
