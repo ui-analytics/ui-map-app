@@ -118,9 +118,6 @@ export class BivariateComponent implements OnInit {
     
     this.mapService.setMapMode(MapMode.bivariate);
 
-    // console.log('OnRunClick',this.field1Variable);
-    // console.log('OnRunClick',this.field2Variable);
-
     const params = {
       layer: this.mapService.variableFL,
       view: this.mapService.mapView,
