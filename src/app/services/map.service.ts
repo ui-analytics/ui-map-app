@@ -4,6 +4,9 @@ import {from, Observable, Observer, of, BehaviorSubject} from 'rxjs';
 import {Project} from '../shared/models/project';
 import {PROJECT} from '../shared/mocks/mock-project';
 
+import {Map as ModelMap} from '../shared/models/map'
+import {MAPS} from '../shared/mocks/mock-map';
+
 import {MapCategory} from '../shared/models/map-category'
 import {MAP_CATEGORY} from '../shared/mocks/mock-map-category';
 
@@ -21,6 +24,7 @@ import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer.js";
 import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol.js";
 import ColorVariable from "@arcgis/core/renderers/visualVariables/ColorVariable.js";
+import Legend from "@arcgis/core/widgets/Legend.js";
 
 @Injectable({
   providedIn: 'root'
@@ -32,39 +36,10 @@ export class MapService {
   extents: Extent[] = EXTENT;
   map!: Map;
   mapView!: MapView;
-
-  // selectedCategory!: MapCategory;
-  // selectedVariable!: MapVariable;
-  colorVariable: ColorVariable = new ColorVariable({
-    normalizationField: 'mfagetote',
-    stops: [
-      {
-        value: .01, 
-        color: "#eefae3", 
-        label: "1% or lower"
-      },
-      {
-        value: .04, 
-        color: "#bae4bc", 
-        label: "4% or higher" 
-      },
-      {
-        value: .08, 
-        color: "#7bccc4", 
-        label: "8% or higher" 
-      },
-      {
-        value: .12, 
-        color: "#43a2ca", 
-        label: "12% or higher" 
-      },
-      {
-        value: .16, 
-        color: "#0868ac", 
-        label: "16% or higher"
-      }
-    ]
-  });
+  colorVariable: ColorVariable = new ColorVariable();
+  colors: string[] = ["#eefae3","#bae4bc","#bae4bc","#43a2ca","#0868ac"];
+  variableFL:FeatureLayer = new FeatureLayer();
+  legend:Legend = new Legend()
 
   defaultRenderer = new SimpleRenderer({
         symbol: new SimpleFillSymbol({
@@ -78,24 +53,11 @@ export class MapService {
         visualVariables: [this.colorVariable]
       })
 
-  censusTractLayer: FeatureLayer = new FeatureLayer({
-    portalItem: {
-      id: 'b7a386ae3c8b404bb856631f936a1e04'
-    },
-    opacity: .85,
-    renderer: this.defaultRenderer
-  });
-
-  countyLayer: FeatureLayer = new FeatureLayer ({
-    portalItem: {
-      id: '50874e607e434667bfb36d759756be6a'
-    }
-  })
-
   private currentCategory = new BehaviorSubject<MapCategory>(MAP_CATEGORY[0]);
   private currentVariable = new BehaviorSubject<MapVariable>(MAP_VARIABLE[0]);
   private isSidenavOpen = new BehaviorSubject<boolean>(false);
   private mapMode = new BehaviorSubject<MapMode>(MapMode.default);
+  projectMaps?: Observable<ModelMap[]>;
 
   constructor() { }
 
@@ -145,6 +107,15 @@ export class MapService {
 
   getExtents() {
     return of(this.extents);
+  }
+
+  getMaps(): Observable<ModelMap[]> {
+    const mapIds = this.project.maps.map(m => m.mapId);
+    return of(MAPS.filter(map => mapIds.includes(map.mapId)));
+  }
+
+  updateMaps(maps:ModelMap[]) {
+    this.projectMaps = of(maps)
   }
   
 }

@@ -6,7 +6,7 @@ export interface Project {
   center: number[];
   zoom: number;
   name: string;
-  maps: number[];
+  maps: any[];
   editMaps?: number[];
   mapTools: MapToolCategory[];
   mapCategories: number[];

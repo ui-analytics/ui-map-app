@@ -17,3 +17,6 @@
     top:35px;
   }
   
+  ::ng-deep .esri-legend__layer-caption {
+    display: none;
+  }

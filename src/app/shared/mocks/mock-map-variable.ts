@@ -65,7 +65,7 @@ export const MAP_VARIABLE: MapVariable[] = [
     {
         variableId: 10,
         name: 'Tree Canopy',
-        censusVariable: 'funder5m ',
+        censusVariable: 'funder5m',
         yearsAvailable: [2020,2021]
     },
     {

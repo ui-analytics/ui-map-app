@@ -1,7 +1,9 @@
 export interface Map {
-  mapId: number;
+  mapId: number
   name: string;
-  url: string;
+  url?: string;
+  portalItem?:any;
   mapType: string;
-  featureLayers?: any;
+  mapObject?: any;
+  visible:boolean;
 }

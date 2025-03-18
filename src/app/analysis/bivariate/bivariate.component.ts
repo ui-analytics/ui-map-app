@@ -118,11 +118,8 @@ export class BivariateComponent implements OnInit {
     
     this.mapService.setMapMode(MapMode.bivariate);
 
-    // console.log('OnRunClick',this.field1Variable);
-    // console.log('OnRunClick',this.field2Variable);
-
     const params = {
-      layer: this.mapService.censusTractLayer,
+      layer: this.mapService.variableFL,
       view: this.mapService.mapView,
       field1: {
         field: this.field1Variable.censusVariable,
@@ -139,7 +136,7 @@ export class BivariateComponent implements OnInit {
     
     
     relationshipRendererCreator.createRenderer(params).then((response) => {
-      this.mapService.censusTractLayer.renderer = response.renderer;
+      this.mapService.variableFL.renderer = response.renderer;
     });
     
     
@@ -151,9 +148,10 @@ export class BivariateComponent implements OnInit {
       this.mapService.setMapMode(MapMode.bivariate);
     } else {
       this.mapService.setMapMode(MapMode.default);
-      this.mapService.censusTractLayer.renderer = this.mapService.defaultRenderer;
+      this.mapService.variableFL.renderer = this.mapService.defaultRenderer;
     }
     this.checked = event.checked;
+
   }
 
   isFormInvalid() {
