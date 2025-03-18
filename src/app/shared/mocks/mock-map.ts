@@ -9,8 +9,7 @@ export const MAPS: Map[] = [
     portalItem: {
       id: 'b7a386ae3c8b404bb856631f936a1e04'
     },
-    mapType: MapType.featureLayer,
-    visible:true
+    mapType: MapType.featureLayer
   },
   {
     mapId: 2,
@@ -18,8 +17,7 @@ export const MAPS: Map[] = [
     portalItem: {
       id: '50874e607e434667bfb36d759756be6a'
     },
-    mapType: MapType.featureLayer,
-    visible:true
+    mapType: MapType.featureLayer
   },
   {
     mapId: 3,
@@ -27,7 +25,6 @@ export const MAPS: Map[] = [
     portalItem: {
       id: 'd0402268176741f987d78dd13b599904'
     },
-    mapType: MapType.featureLayer,
-    visible:false
+    mapType: MapType.featureLayer
   }
 ];

@@ -5,5 +5,4 @@ export interface Map {
   portalItem?:any;
   mapType: string;
   mapObject?: any;
-  visible:boolean;
 }
