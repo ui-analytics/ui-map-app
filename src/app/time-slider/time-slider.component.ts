@@ -1,11 +1,17 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import {MatSliderModule} from '@angular/material/slider';
 import { MapService } from '../services/map.service'
+import { MapVariable } from '../shared/models/map-variable';
+import { MapMode } from '../shared/enums/map-mode.enum';
 
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { Options } from '@angular-slider/ngx-slider';
 
 import { Subscription } from 'rxjs';
+
+import classBreaks from "@arcgis/core/smartMapping/statistics/classBreaks.js";
+import ColorVariable from '@arcgis/core/renderers/visualVariables/ColorVariable';
+
 
 
 @Component({
@@ -17,8 +23,11 @@ import { Subscription } from 'rxjs';
 export class TimeSliderComponent implements OnInit {
   private variableSubscription:Subscription;
 
+  currentVariable?: MapVariable;
+
   constructor(private mapService: MapService) { 
     this.variableSubscription = this.mapService.getCurrentVariable().subscribe((variable) => {
+      this.currentVariable = variable;
       // create in format needed for time slider
       this.yearsAvailable = variable.yearsAvailable.map(year => ({ value: year }));
       // console.log(variable.name, this.yearsAvailable)
@@ -44,6 +53,34 @@ export class TimeSliderComponent implements OnInit {
   onValueChange(event:any): void{
     this.value = event;
     this.mapService.variableFL.definitionExpression = `year = ${this.value}`;
+
+    classBreaks({
+              layer: this.mapService.variableFL,
+              field: this.currentVariable?.censusVariable,
+              classificationMethod: 'natural-breaks',
+              numClasses:5
+            }).then(res => {
+              const breaks = res.classBreakInfos.map((info, i) => ({
+                value: info.maxValue,
+                label: info.label,
+                color: this.mapService.colors[i]
+              }))
+    
+              const colorVariable = new ColorVariable({
+                field: this.currentVariable?.censusVariable,
+                stops: breaks
+              })
+    
+              this.mapService.getMapMode().subscribe((mode)=> {
+                    if (mode == MapMode.default) {
+                      this.mapService.defaultRenderer.visualVariables = [colorVariable];
+                      this.mapService.variableFL.renderer = this.mapService.defaultRenderer;
+                      this.mapService.legend.layerInfos = [{layer:this.mapService.variableFL}]
+                    }
+                  });
+            })
+
+
   }
 }
 
