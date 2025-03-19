@@ -19,7 +19,7 @@ export const PROJECT: Project[] = [{
     maps: [
       {
         mapId:1,
-        opacity: .85,
+        opacity: .6,
         visible: true,
         variableControlled: true,
         popupEnabled: true
