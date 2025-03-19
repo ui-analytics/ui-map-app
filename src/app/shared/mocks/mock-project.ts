@@ -26,6 +26,7 @@ export const PROJECT: Project[] = [{
       },
       {
         mapId:2,
+        opacity: .5,
         visible: true,
         popupEnabled: false
       },
