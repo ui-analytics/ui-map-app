@@ -15,14 +15,28 @@
 }
 
 #variablesDiv {
-  display: flex;
+  display: flex !important;
   position: absolute;
   
   flex-direction: row;
   justify-content: center;
-  width:100%;
+  top: 115px;
+  left: 50%;
+  transform: translate(-50%, -50%);
   margin:0px;
   padding:0%;
   background-color: none;
   z-index: 2;
+
+  
+}
+
+#variableGroup {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 2px;
+  justify-content: center;
+  border: none;
+  /* padding: 0px 300px; */
+  
 }
