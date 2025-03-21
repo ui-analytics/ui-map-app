@@ -60,11 +60,45 @@ export class SearchComponent implements OnInit, AfterViewInit  {
   }
 
   onSelectionChange(event: MatOptionSelectionChange, option:Extent) {
-    // console.log('selected:',option);
     // TODO: find better way to remove graphics layers
     this.mapService.map.layers.forEach((layer) => {
       if (layer.type === "graphics") {
         this.mapService.map.remove(layer);
+      }
+    });
+
+    this.mapService.projectMaps?.subscribe((m) =>{
+      const locationType = m.filter(x => x.location_type == option.location_type).reduce((acc: any, it) => it, { });
+
+      // console.log('LocationType:',locationType);
+
+      if (locationType) {
+        const query = new Query();
+        query.where = `crdt_unique_id = '${option.crdt_unique_id}'`;
+        // query.outSpatialReference = { wkid: option.wkid };
+        query.returnGeometry = true;
+    
+        locationType.mapObject.queryFeatures(query).then((results:any) => {
+          const graphicsLayer = new GraphicsLayer();
+          const graphics = results.features.map((feature:any) => {
+            return new Graphic({
+              geometry: feature.geometry,
+              attributes: feature.attributes,
+              symbol: new SimpleFillSymbol({
+                color: [0, 0, 255, 0],
+                outline: {
+                  color: [252, 65, 3, 1],
+                  width: 3
+                }
+              })
+            })
+          })
+    
+          graphicsLayer.addMany(graphics);
+          this.mapService.map.add(graphicsLayer);
+          
+        }).catch((error:any)=> console.error('failed',error));
+
       }
     });
 
@@ -77,31 +111,6 @@ export class SearchComponent implements OnInit, AfterViewInit  {
     })
 
     this.mapService.mapView.goTo(extent);
-
-    const query = new Query();
-    query.where = `crdt_unique_id = '${option.crdt_unique_id}'`;
-    // query.outSpatialReference = { wkid: option.wkid };
-    query.returnGeometry = true;
-    this.mapService.variableFL.queryFeatures(query).then((results) => {
-      const graphicsLayer = new GraphicsLayer();
-      const graphics = results.features.map((feature) => {
-        return new Graphic({
-          geometry: feature.geometry,
-          attributes: feature.attributes,
-          symbol: new SimpleFillSymbol({
-            color: [0, 0, 255, 0], // Blue with 30% transparency
-            outline: {
-              color: [0, 255, 255, 1], // Blue outline
-              width: 3
-            }
-          })
-        })
-      })
-
-      graphicsLayer.addMany(graphics);
-      this.mapService.map.add(graphicsLayer);
-      
-    }).catch((error)=> console.error('failed',error));
   }
 
   onFormClick(event:any) {
