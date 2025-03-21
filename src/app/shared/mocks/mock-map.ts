@@ -7,24 +7,27 @@ export const MAPS: Map[] = [
     mapId: 1,
     name: 'Urban Institute Census Tracts',
     portalItem: {
-      id: 'b7a386ae3c8b404bb856631f936a1e04'
+      id: 'e5d0590d2280423a9e146a4fc0c16b01'
     },
-    mapType: MapType.featureLayer
+    mapType: MapType.featureLayer,
+    location_type: 'Census Tract'
   },
   {
     mapId: 2,
-    name: 'Urban Institute Couties',
+    name: 'Urban Institute Counties',
     portalItem: {
       id: '50874e607e434667bfb36d759756be6a'
     },
-    mapType: MapType.featureLayer
+    mapType: MapType.featureLayer,
+    location_type: 'County'
   },
   {
     mapId: 3,
-    name: 'Urban Institute Places',
+    name: 'Urban Institute Cities',
     portalItem: {
       id: 'd0402268176741f987d78dd13b599904'
     },
-    mapType: MapType.featureLayer
+    mapType: MapType.featureLayer,
+    location_type: 'City'
   }
 ];
