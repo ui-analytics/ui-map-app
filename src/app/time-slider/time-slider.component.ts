@@ -60,11 +60,13 @@ export class TimeSliderComponent implements OnInit {
               classificationMethod: 'natural-breaks',
               numClasses:5
             }).then(res => {
-              const breaks = res.classBreakInfos.map((info, i) => ({
+              let breaks = res.classBreakInfos.map((info, i) => ({
                 value: info.maxValue,
                 label: info.label,
                 color: this.mapService.colors[i]
               }))
+
+              breaks = breaks.map(x => this.mapService.roundBreakLabel(x));          
     
               const colorVariable = new ColorVariable({
                 field: this.currentVariable?.censusVariable,

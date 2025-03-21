@@ -117,5 +117,12 @@ export class MapService {
   updateMaps(maps:ModelMap[]) {
     this.projectMaps = of(maps)
   }
+
+  roundBreakLabel(obj: any): any {
+    const [startStr, endStr] = obj.label.split(" - ");
+    const start = Math.round(parseFloat(startStr) * 10) / 10;
+    const end = Math.round(parseFloat(endStr) * 10) / 10;
+    return {value:end, label: `${start}% - ${end}%`,color:obj.color};
+  }
   
 }
