@@ -5,4 +5,5 @@ export interface Map {
   portalItem?:any;
   mapType: string;
   mapObject?: any;
+  location_type?: string;
 }

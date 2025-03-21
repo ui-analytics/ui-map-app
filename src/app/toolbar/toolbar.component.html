@@ -18,7 +18,7 @@
 
 
     <div id="variablesDiv">
-        <mat-button-toggle-group [hideSingleSelectionIndicator]="hideSelection" (change)="onToggleVariableChange($event)" style="margin:10px;">
+        <mat-button-toggle-group id="variableGroup" [hideSingleSelectionIndicator]="hideSelection" (change)="onToggleVariableChange($event)" style="margin:10px;">
             <app-toolbar-variable *ngFor="let variable of variables;" [variable]="variable" style="display: flex;"></app-toolbar-variable>
         </mat-button-toggle-group>
     </div>
