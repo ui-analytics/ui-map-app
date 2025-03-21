@@ -43,7 +43,7 @@ export class MapService {
 
   defaultRenderer = new SimpleRenderer({
         symbol: new SimpleFillSymbol({
-          color: [ 51,51, 204, 0.9 ],
+          color: [ 230, 232, 230],
           style: "solid",
           outline: {
             color: [0,0,0, 0.2],
