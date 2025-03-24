@@ -25,6 +25,7 @@ import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer.js";
 import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol.js";
 import ColorVariable from "@arcgis/core/renderers/visualVariables/ColorVariable.js";
 import Legend from "@arcgis/core/widgets/Legend.js";
+import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer.js";
 
 @Injectable({
   providedIn: 'root'
@@ -34,12 +35,13 @@ export class MapService {
   mapCategories: MapCategory[] = [];
   mapVariables: MapVariable[] = [];
   extents: Extent[] = EXTENT;
-  map!: Map;
+  esriMap!: Map;
   mapView!: MapView;
   colorVariable: ColorVariable = new ColorVariable();
   colors: string[] = ["#eefae3","#bae4bc","#bae4bc","#43a2ca","#0868ac"];
   variableFL:FeatureLayer = new FeatureLayer();
   legend:Legend = new Legend()
+  graphicsLayer = new GraphicsLayer();
 
   defaultRenderer = new SimpleRenderer({
         symbol: new SimpleFillSymbol({
@@ -123,6 +125,15 @@ export class MapService {
     const start = Math.round(parseFloat(startStr) * 10) / 10;
     const end = Math.round(parseFloat(endStr) * 10) / 10;
     return {value:end, label: `${start}% - ${end}%`,color:obj.color};
+  }
+
+  clearSelectedFeatures() {
+    this.graphicsLayer.removeAll();
+  }
+
+  toggleMapVisibility() {
+    const visibility = !this.variableFL.visible;
+    this.variableFL.visible = visibility;
   }
   
 }

@@ -19,6 +19,8 @@ import {Map as ModelMap} from '../shared/models/map'
 import { MapVariable } from '../shared/models/map-variable';
 import { MapMode } from '../shared/enums/map-mode.enum';
 
+import MapButtonWidget from '../shared/tools/map-button';
+
 
 @Component({
   selector: 'app-map',
@@ -52,9 +54,10 @@ export class MapComponent implements OnInit, OnDestroy {
     // console.log('PROJECT',this.project)
     
 
-    this.mapService.map = new Map({
+    this.mapService.esriMap = new Map({
       basemap: this.project.basemap
     })
+
     
     this.mapService.getMaps().subscribe((projectMaps) => {
       
@@ -80,7 +83,7 @@ export class MapComponent implements OnInit, OnDestroy {
           }
           
           m.mapObject = fl
-          this.mapService.map.add(fl);
+          this.mapService.esriMap.add(fl);
         }
       })
 
@@ -91,7 +94,7 @@ export class MapComponent implements OnInit, OnDestroy {
     
     this.mapService.mapView = new MapView({
           container,
-          map: this.mapService.map,
+          map: this.mapService.esriMap,
           center: this.project.center,
           zoom: this.project.zoom,
           constraints:{minZoom:this.project.zoom-1}
@@ -111,8 +114,6 @@ export class MapComponent implements OnInit, OnDestroy {
       view: this.mapService.mapView
     });
 
-    // this.mapService.mapView.ui.add(basemapGallery, "top-right");
-
     const expand = new Expand({
       view: this.mapService.mapView,
       content: basemapGallery,
@@ -122,9 +123,34 @@ export class MapComponent implements OnInit, OnDestroy {
 
     this.mapService.mapView.ui.add(expand, 'top-left');
 
+    this.mapService.mapView.when(() => {
+
+      this.mapService.esriMap.add(this.mapService.graphicsLayer);
+
+      const clearWidget = new MapButtonWidget({
+        iconClass:'esri-icon-close-circled',
+        label:'Clear selected features.',
+        name:'clear_features',
+        onClick: () => {
+          this.mapService.clearSelectedFeatures();
+        }});
+      this.mapService.mapView.ui.add(clearWidget,'top-left');
+
+      const toggleMapVisibleWidget = new MapButtonWidget({
+        iconClass:'esri-icon-hollow-eye',
+        label:'Toggle map visiblity.',
+        name:'toggle_map',
+        onClick: () => {
+          this.mapService.toggleMapVisibility();
+          // console.log(this.projectMaps);
+          // this.projectMaps[0].mapObject.visible = false;
+        }});
+      this.mapService.mapView.ui.add(toggleMapVisibleWidget,'top-left');
+    })
+    
+
   }
 
-  
 
   ngOnInit(): any {
     this.initializeMap().then(r => {

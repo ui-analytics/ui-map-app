@@ -12,7 +12,6 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 
 import { Extent as EsriExtent } from "@arcgis/core/geometry";
 import Query from "@arcgis/core/rest/support/Query.js";
-import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer.js";
 import Graphic from "@arcgis/core/Graphic.js";
 import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol.js";
 import ColorVariable from "@arcgis/core/renderers/visualVariables/ColorVariable.js";
@@ -60,13 +59,9 @@ export class SearchComponent implements OnInit, AfterViewInit  {
   }
 
   onSelectionChange(event: MatOptionSelectionChange, option:Extent) {
-    // TODO: find better way to remove graphics layers
-    this.mapService.map.layers.forEach((layer) => {
-      if (layer.type === "graphics") {
-        this.mapService.map.remove(layer);
-      }
-    });
-
+    
+    this.mapService.graphicsLayer.removeAll()
+    
     this.mapService.projectMaps?.subscribe((m) =>{
       const locationType = m.filter(x => x.location_type == option.location_type).reduce((acc: any, it) => it, { });
 
@@ -79,7 +74,7 @@ export class SearchComponent implements OnInit, AfterViewInit  {
         query.returnGeometry = true;
     
         locationType.mapObject.queryFeatures(query).then((results:any) => {
-          const graphicsLayer = new GraphicsLayer();
+          
           const graphics = results.features.map((feature:any) => {
             return new Graphic({
               geometry: feature.geometry,
@@ -94,8 +89,8 @@ export class SearchComponent implements OnInit, AfterViewInit  {
             })
           })
     
-          graphicsLayer.addMany(graphics);
-          this.mapService.map.add(graphicsLayer);
+          this.mapService.graphicsLayer.addMany(graphics);
+          // 
           
         }).catch((error:any)=> console.error('failed',error));
 
