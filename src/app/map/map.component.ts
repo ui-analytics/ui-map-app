@@ -7,6 +7,7 @@ import Home from "@arcgis/core/widgets/Home.js";
 import BasemapGallery from "@arcgis/core/widgets/BasemapGallery.js";
 import classBreaks from "@arcgis/core/smartMapping/statistics/classBreaks.js";
 import ColorVariable from '@arcgis/core/renderers/visualVariables/ColorVariable';
+import Expand from '@arcgis/core/widgets/Expand';
 
 import { MapService } from '../services/map.service'
 
@@ -111,6 +112,14 @@ export class MapComponent implements OnInit, OnDestroy {
     });
 
     // this.mapService.mapView.ui.add(basemapGallery, "top-right");
+
+    const expand = new Expand({
+      view: this.mapService.mapView,
+      content: basemapGallery,
+      icon: 'esri-icon-basemap'
+    });
+
+    this.mapService.mapView.ui.add(expand, 'top-left');
 
   }
 
