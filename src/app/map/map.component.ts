@@ -116,7 +116,8 @@ export class MapComponent implements OnInit, OnDestroy {
     const expand = new Expand({
       view: this.mapService.mapView,
       content: basemapGallery,
-      icon: 'esri-icon-basemap'
+      icon: 'esri-icon-basemap',
+      expandTooltip:'Show Basemap'
     });
 
     this.mapService.mapView.ui.add(expand, 'top-left');
