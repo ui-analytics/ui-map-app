@@ -40,6 +40,7 @@ export class MapService {
   colors: string[] = ["#eefae3","#bae4bc","#bae4bc","#43a2ca","#0868ac"];
   variableFL:FeatureLayer = new FeatureLayer();
   legend:Legend = new Legend()
+  graphicsLayer = new GraphicsLayer();
 
   defaultRenderer = new SimpleRenderer({
         symbol: new SimpleFillSymbol({
