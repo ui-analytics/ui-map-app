@@ -61,7 +61,7 @@ export class SearchComponent implements OnInit, AfterViewInit  {
   onSelectionChange(event: MatOptionSelectionChange, option:Extent) {
     
     this.mapService.graphicsLayer.removeAll()
-
+    
     this.mapService.projectMaps?.subscribe((m) =>{
       const locationType = m.filter(x => x.location_type == option.location_type).reduce((acc: any, it) => it, { });
 

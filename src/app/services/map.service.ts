@@ -34,7 +34,7 @@ export class MapService {
   mapCategories: MapCategory[] = [];
   mapVariables: MapVariable[] = [];
   extents: Extent[] = EXTENT;
-  map!: Map;
+  esriMap!: Map;
   mapView!: MapView;
   colorVariable: ColorVariable = new ColorVariable();
   colors: string[] = ["#eefae3","#bae4bc","#bae4bc","#43a2ca","#0868ac"];

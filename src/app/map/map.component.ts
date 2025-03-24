@@ -54,9 +54,10 @@ export class MapComponent implements OnInit, OnDestroy {
     // console.log('PROJECT',this.project)
     
 
-    this.mapService.map = new Map({
+    this.mapService.esriMap = new Map({
       basemap: this.project.basemap
     })
+
     
     this.mapService.getMaps().subscribe((projectMaps) => {
       
@@ -82,7 +83,7 @@ export class MapComponent implements OnInit, OnDestroy {
           }
           
           m.mapObject = fl
-          this.mapService.map.add(fl);
+          this.mapService.esriMap.add(fl);
         }
       })
 
@@ -93,7 +94,7 @@ export class MapComponent implements OnInit, OnDestroy {
     
     this.mapService.mapView = new MapView({
           container,
-          map: this.mapService.map,
+          map: this.mapService.esriMap,
           center: this.project.center,
           zoom: this.project.zoom,
           constraints:{minZoom:this.project.zoom-1}
@@ -112,8 +113,6 @@ export class MapComponent implements OnInit, OnDestroy {
     let basemapGallery = new BasemapGallery({
       view: this.mapService.mapView
     });
-
-    // this.mapService.mapView.ui.add(basemapGallery, "top-right");
 
     const expand = new Expand({
       view: this.mapService.mapView,
@@ -151,7 +150,7 @@ export class MapComponent implements OnInit, OnDestroy {
     
 
   }
-  
+
 
   ngOnInit(): any {
     this.initializeMap().then(r => {
