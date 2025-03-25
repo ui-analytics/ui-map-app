@@ -67,7 +67,7 @@ export const MAP_VARIABLE: MapVariable[] = [
     {
         variableId: 9,
         name: 'Education Level - Bachelors Degree',
-        fieldName: 'percentadultswithatleastbachelo',
+        fieldName: 'percentatleastbachelors',
         valueType:'percentage',
         yearsAvailable: [2018,2019,2020,2021,2022,2023]
     },
