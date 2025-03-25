@@ -129,7 +129,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
       const clearWidget = new MapButtonWidget({
         iconClass:'esri-icon-close-circled',
-        label:'Clear selected features.',
+        label:'Clear selected location',
         name:'clear_features',
         onClick: () => {
           this.mapService.clearSelectedFeatures();
@@ -138,7 +138,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
       const zoomSelectedFeaturesWidget = new MapButtonWidget({
         iconClass:'esri-icon-zoom-in-magnifying-glass',
-        label:'Zoom to selected feature.',
+        label:'Zoom to selected location',
         name:'zoom_feature',
         onClick: () => {
           this.mapService.zoomSelectedFeature();
@@ -148,7 +148,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
       const toggleMapVisibleWidget = new MapButtonWidget({
         iconClass:'esri-icon-hollow-eye',
-        label:'Toggle map visiblity.',
+        label:'Toggle map visiblity',
         name:'toggle_map',
         onClick: () => {
           this.mapService.toggleMapVisibility();
