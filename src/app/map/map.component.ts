@@ -167,7 +167,7 @@ export class MapComponent implements OnInit, OnDestroy {
         
         classBreaks({
           layer: this.mapService.variableFL,
-          field: this.currentVariable.censusVariable,
+          field: this.currentVariable.fieldName,
           classificationMethod: 'natural-breaks',
           numClasses:5
         }).then(res => {
@@ -180,7 +180,7 @@ export class MapComponent implements OnInit, OnDestroy {
           breaks = breaks.map(x => this.mapService.roundBreakLabel(x));          
 
           const colorVariable = new ColorVariable({
-            field: this.currentVariable?.censusVariable,
+            field: this.currentVariable?.fieldName,
             stops: breaks
           })
 

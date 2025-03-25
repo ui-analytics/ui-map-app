@@ -56,7 +56,7 @@ export class TimeSliderComponent implements OnInit {
 
     classBreaks({
               layer: this.mapService.variableFL,
-              field: this.currentVariable?.censusVariable,
+              field: this.currentVariable?.fieldName,
               classificationMethod: 'natural-breaks',
               numClasses:5
             }).then(res => {
@@ -69,7 +69,7 @@ export class TimeSliderComponent implements OnInit {
               breaks = breaks.map(x => this.mapService.roundBreakLabel(x));          
     
               const colorVariable = new ColorVariable({
-                field: this.currentVariable?.censusVariable,
+                field: this.currentVariable?.fieldName,
                 stops: breaks
               })
     

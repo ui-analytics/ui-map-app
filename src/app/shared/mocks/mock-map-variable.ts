@@ -4,130 +4,130 @@ export const MAP_VARIABLE: MapVariable[] = [
     {
         variableId: 1,
         name: 'Population - Youth',
-        censusVariable: 'percentunder18',
+        fieldName: 'percentunder18',
         yearsAvailable: [2018,2019,2020,2021,2022,2023]
     },
     {
         variableId: 2,
         name: 'Population - Older Adult',
-        censusVariable: 'percentover65',
+        fieldName: 'percentover65',
         yearsAvailable: [2018,2019,2020,2021,2022,2023]
     }
     ,
     {
         variableId: 3,
         name: 'Population - Veterans',
-        censusVariable: 'percentveteran',
+        fieldName: 'percentveteran',
         yearsAvailable: [2018,2019,2020,2021,2022,2023]
     }
     ,
     {
         variableId: 4,
         name: 'Race/Ethnicity - All Other Races',
-        censusVariable: 'percentother',
+        fieldName: 'percentother',
         yearsAvailable: [2018,2019,2020,2021,2022,2023]
     }
     ,
     {
         variableId: 5,
         name: 'Race/Ethnicity - Asian',
-        censusVariable: 'percentasian',
+        fieldName: 'percentasian',
         yearsAvailable: [2018,2019,2020,2021,2022,2023]
     }
     ,
     {
         variableId: 6,
         name: 'Race/Ethnicity - Black or African American',
-        censusVariable: 'percentblack',
+        fieldName: 'percentblack',
         yearsAvailable: [2018,2019,2020,2021,2022,2023]
     }
     ,
     {
         variableId: 7,
         name: 'Race/Ethnicity - Hispanic or Latino',
-        censusVariable: 'percenthispanic',
+        fieldName: 'percenthispanic',
         yearsAvailable: [2018,2019,2020,2021,2022,2023]
     }
     ,
     {
         variableId: 8,
         name: 'Race/Ethnicity - White or Caucasian',
-        censusVariable: 'percentwhite',
+        fieldName: 'percentwhite',
         yearsAvailable: [2018,2019,2020,2021,2022,2023]
     }
     ,
     {
         variableId: 9,
         name: 'Education Level - Bachelors Degree',
-        censusVariable: 'percentadultswithatleastbachelo',
+        fieldName: 'percentadultswithatleastbachelo',
         yearsAvailable: [2018,2019,2020,2021,2022,2023]
     },
     {
         variableId: 10,
         name: 'Percentage of Private Schools',
-        censusVariable: 'percentprivateschool',
+        fieldName: 'percentprivateschool',
         yearsAvailable: [2018,2019,2020,2021,2022,2023]
     },
     {
         variableId: 11,
         name: 'Education Level - High School Diploma',
-        censusVariable: 'percenthighschooldiploma',
+        fieldName: 'percenthighschooldiploma',
         yearsAvailable: [2018,2019,2020,2021,2022,2023]
     }
     ,
     {
         variableId: 12,
         name: 'Employment',
-        censusVariable: 'percentemployed',
+        fieldName: 'percentemployed',
         yearsAvailable: [2018,2019,2020,2021,2022,2023]
     }
     ,
     {
         variableId: 13,
         name: 'High Speed Internet Access',
-        censusVariable: 'percentinternetaccess',
+        fieldName: 'percentinternetaccess',
         yearsAvailable: [2018,2019,2020,2021,2022,2023]
     }
     ,
     {
         variableId: 14,
         name: 'Homes Not Occupied by Owners',
-        censusVariable: 'percentoccupied',
+        fieldName: 'percentoccupied',
         yearsAvailable: [2018,2019,2020,2021,2022,2023]
     }
     ,
     {
         variableId: 15,
         name: 'Home Ownership',
-        censusVariable: 'percentowneroccupied',
+        fieldName: 'percentowneroccupied',
         yearsAvailable: [2018,2019,2020,2021,2022,2023]
     }
     ,
     {
         variableId: 16,
         name: 'Vacant Homes',
-        censusVariable: 'percentvacant',
+        fieldName: 'percentvacant',
         yearsAvailable: [2018,2019,2020,2021,2022,2023]
     }
     ,
     {
         variableId: 17,
         name: 'Vehicle Ownership',
-        censusVariable: 'percentnovehicle',
+        fieldName: 'percentnovehicle',
         yearsAvailable: [2018,2019,2020,2021,2022,2023]
     }
     ,
     {
         variableId: 18,
         name: 'Long Commute',
-        censusVariable: 'percentdrovemorethan20minutes',
+        fieldName: 'percentdrovemorethan20minutes',
         yearsAvailable: [2018,2019,2020,2021,2022,2023]
     }
     ,
     {
         variableId: 19,
         name: 'Drives Alone',
-        censusVariable: 'percentdrovealone',
+        fieldName: 'percentdrovealone',
         yearsAvailable: [2018,2019,2020,2021,2022,2023]
     }
 ]
