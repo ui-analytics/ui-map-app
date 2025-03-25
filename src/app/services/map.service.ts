@@ -125,7 +125,12 @@ export class MapService {
     const [startStr, endStr] = obj.label.split(" - ");
     const start = Math.round(parseFloat(startStr) * 10) / 10;
     const end = Math.round(parseFloat(endStr) * 10) / 10;
-    return {value:end, label: `${start}% - ${end}%`,color:obj.color};
+    return {value:end, label: `${start} - ${end}`,color:obj.color};
+  }
+
+  addPercentSymbolToBreaks(obj:any): any {
+    const [startStr, endStr] = obj.label.split(" - ");
+    return {value:obj.value, label: `${startStr}% - ${endStr}%`,color:obj.color};
   }
 
   clearSelectedFeatures() {

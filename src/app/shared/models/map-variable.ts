@@ -3,5 +3,6 @@ export interface MapVariable {
   name: string;
   featureServiceUrl?: string;
   fieldName: string;
+  valueType: string;
   yearsAvailable: number[];  
 }
