@@ -136,14 +136,22 @@ export class MapComponent implements OnInit, OnDestroy {
         }});
       this.mapService.mapView.ui.add(clearWidget,'top-left');
 
+      const zoomSelectedFeaturesWidget = new MapButtonWidget({
+        iconClass:'esri-icon-zoom-in-magnifying-glass',
+        label:'Zoom to selected feature.',
+        name:'zoom_feature',
+        onClick: () => {
+          this.mapService.zoomSelectedFeature();
+        }});
+      this.mapService.mapView.ui.add(zoomSelectedFeaturesWidget,'top-left');
+
+
       const toggleMapVisibleWidget = new MapButtonWidget({
         iconClass:'esri-icon-hollow-eye',
         label:'Toggle map visiblity.',
         name:'toggle_map',
         onClick: () => {
           this.mapService.toggleMapVisibility();
-          // console.log(this.projectMaps);
-          // this.projectMaps[0].mapObject.visible = false;
         }});
       this.mapService.mapView.ui.add(toggleMapVisibleWidget,'top-left');
     })

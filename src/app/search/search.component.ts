@@ -90,7 +90,6 @@ export class SearchComponent implements OnInit, AfterViewInit  {
           })
     
           this.mapService.graphicsLayer.addMany(graphics);
-          // 
           
         }).catch((error:any)=> console.error('failed',error));
 

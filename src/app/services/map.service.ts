@@ -26,6 +26,7 @@ import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol.js";
 import ColorVariable from "@arcgis/core/renderers/visualVariables/ColorVariable.js";
 import Legend from "@arcgis/core/widgets/Legend.js";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer.js";
+import { Extent as EsriExtent } from "@arcgis/core/geometry";
 
 @Injectable({
   providedIn: 'root'
@@ -134,6 +135,22 @@ export class MapService {
   toggleMapVisibility() {
     const visibility = !this.variableFL.visible;
     this.variableFL.visible = visibility;
+  }
+
+  zoomSelectedFeature() {
+    try {
+    const graphicExtent = this.graphicsLayer.graphics.getItemAt(0).geometry.extent
+
+    let extent = new EsriExtent({
+      xmin: graphicExtent.xmin,
+      ymin: graphicExtent.ymin,
+      xmax: graphicExtent.xmax,
+      ymax: graphicExtent.ymax,
+      spatialReference: {wkid: 4326}
+    })
+
+    this.mapView.goTo(extent);
+  } catch {}
   }
   
 }
