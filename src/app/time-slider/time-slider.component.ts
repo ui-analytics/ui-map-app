@@ -66,7 +66,11 @@ export class TimeSliderComponent implements OnInit {
                 color: this.mapService.colors[i]
               }))
 
-              breaks = breaks.map(x => this.mapService.roundBreakLabel(x));          
+              breaks = breaks.map(x => this.mapService.roundBreakLabel(x));        
+              
+              if (this.currentVariable?.valueType === 'percentage') {
+                breaks = breaks.map(x => this.mapService.addPercentSymbolToBreaks(x));    
+              }
     
               const colorVariable = new ColorVariable({
                 field: this.currentVariable?.fieldName,
