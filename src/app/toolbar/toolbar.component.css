@@ -15,7 +15,7 @@
 }
 
 #variablesDiv {
-  display: flex !important;
+  display: inline-block;
   position: absolute;
   
   flex-direction: row;
@@ -28,15 +28,20 @@
   background-color: none;
   z-index: 2;
   opacity: .70;
-  min-width: 1150px;
+  min-width: 800px;
+  max-height: 95px;
+  overflow-y: auto;
 }
 
 #variableGroup {
-  display: flex !important;
+  /* display: flex !important; */
   flex-wrap: wrap;
   gap: 2px;
   justify-content: center;
   border: none;
   /* padding: 0px 300px; */
+  display: inline-flex;
+  overflow: hidden;
+  border-radius: 4px;
   
 }
