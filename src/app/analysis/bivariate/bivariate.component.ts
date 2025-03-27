@@ -67,7 +67,7 @@ export class BivariateComponent implements OnInit {
       let variableArray = categories.flatMap((x) => x.mapVariables);
       
       this.mapService.getMapVariables(variableArray).subscribe((variables)=> {
-        this.variables = variables;
+        this.variables = variables.filter(v => v.disabled == false);
       })
       console.log('VARIABLES',this.variables)
     });
