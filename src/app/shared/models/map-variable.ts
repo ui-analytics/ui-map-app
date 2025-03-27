@@ -4,5 +4,6 @@ export interface MapVariable {
   featureServiceUrl?: string;
   fieldName: string;
   valueType: string;
-  yearsAvailable: number[];  
+  yearsAvailable: number[];
+  disabled: boolean;  
 }
