@@ -15,6 +15,8 @@ export class ToolbarVariableComponent {
   @Input() variable!: MapVariable;
   varVisible?: boolean = false;
   @Input() id!:number;
+  disabled?:boolean = false;
+  backgroundColor:string = "#000000"
 
   variableList: Number[] =  []
   variables: MapVariable[] = [];
@@ -37,6 +39,11 @@ export class ToolbarVariableComponent {
         // console.log('change', this.varVisible, this.variable.name, cv.name);
       } else {
         this.varVisible = false;
+      }
+
+      if (this.variable.disabled == true) {
+        this.disabled = true;
+        this.backgroundColor = "#44474e"
       }
     });
   }
