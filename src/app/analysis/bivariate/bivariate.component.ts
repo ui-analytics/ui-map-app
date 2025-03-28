@@ -122,11 +122,11 @@ export class BivariateComponent implements OnInit {
       layer: this.mapService.variableFL,
       view: this.mapService.mapView,
       field1: {
-        field: `z_${this.field1Variable.fieldName}`,
+        field: this.field1Variable.bivariateField,
         label: this.field1Variable.name
       },
       field2: {
-        field: `z_${this.field2Variable.fieldName}`,
+        field: this.field2Variable.bivariateField,
         label: this.field2Variable.name
       },
       focus: "HH", 

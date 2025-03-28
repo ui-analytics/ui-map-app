@@ -3,6 +3,8 @@ export interface MapVariable {
   name: string;
   featureServiceUrl?: string;
   fieldName: string;
+  bivariateField: string;
+  moransField:string;
   valueType: string;
   yearsAvailable: number[];
   disabled: boolean;  
