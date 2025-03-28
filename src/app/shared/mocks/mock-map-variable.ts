@@ -23,12 +23,12 @@ export const MAP_VARIABLE: MapVariable[] = [
         },
         {
         variableId: 3,
-        name: 'Age or Residents',
+        name: 'Age of Residents',
         fieldName: 'median_agee',
         bivariateField: 'z_median_agee',
         moransField: 'sig_quad_median_agee',
         valueType: 'numeric',
-        yearsAvailable: [],
+        yearsAvailable: [2018,2019,2020,2021,2022,2023],
         disabled: false,
         },
         {
@@ -39,7 +39,7 @@ export const MAP_VARIABLE: MapVariable[] = [
         moransField: 'sig_quad_medianhouseholdincomee',
         valueType: 'numeric',
         yearsAvailable: [],
-        disabled: false,
+        disabled: true,
         },
         {
         variableId: 5,
@@ -184,12 +184,12 @@ export const MAP_VARIABLE: MapVariable[] = [
         {
         variableId: 19,
         name: 'Household Income',
-        fieldName: 'null',
-        bivariateField: 'null',
-        moransField: 'null',
-        valueType: 'money',
-        yearsAvailable: [],
-        disabled: true,
+        fieldName: 'medianhouseholdincomee',
+        bivariateField: 'z_medianhouseholdincomee',
+        moransField: 'sig_quad_medianhouseholdincomee',
+        valueType: 'numeric',
+        yearsAvailable: [2018,2019,2020,2021,2022,2023],
+        disabled: false,
         },
         {
         variableId: 20,
