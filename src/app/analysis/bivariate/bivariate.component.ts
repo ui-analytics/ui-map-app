@@ -85,6 +85,8 @@ export class BivariateComponent implements OnInit {
     this.mapModeSubscription = this.mapService.getMapMode().subscribe((mode)=> {
       if (mode == MapMode.bivariate) {
         this.checked = true;
+      } else {
+        this.checked = false;
       }
     });
 
