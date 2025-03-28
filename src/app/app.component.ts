@@ -14,10 +14,11 @@ import { TimeSliderComponent } from "./time-slider/time-slider.component";
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { SearchComponent } from "./search/search.component";
 import { BivariateComponent } from "./analysis/bivariate/bivariate.component";
+import { AutocorrelationComponent } from "./analysis/autocorrelation/autocorrelation.component";
 
 @Component({
   selector: 'app-root',
-  imports: [MapComponent, ToolbarComponent, TimeSliderComponent, TimeSliderComponent, MatSidenavModule, SearchComponent, BivariateComponent],
+  imports: [MapComponent, ToolbarComponent, TimeSliderComponent, TimeSliderComponent, MatSidenavModule, SearchComponent, BivariateComponent, AutocorrelationComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
