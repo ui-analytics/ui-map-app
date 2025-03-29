@@ -92,6 +92,8 @@ export class TimeSliderComponent implements OnInit {
               
               if (this.currentVariable?.valueType === 'percentage') {
                 breaks = breaks.map(x => this.mapService.addPercentSymbolToBreaks(x));    
+              } else if (this.currentVariable?.valueType === 'money') {
+                breaks = breaks.map(x => this.mapService.addMoneySymbolToBreaks(x));
               }
     
               const colorVariable = new ColorVariable({

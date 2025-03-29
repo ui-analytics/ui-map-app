@@ -209,6 +209,13 @@ export class MapService {
     return { value: obj.value, label: `${startStr}% - ${endStr}%`, color: obj.color };
   }
 
+  addMoneySymbolToBreaks(obj: any): any {
+    const [startStr, endStr] = obj.label.split(" - ");
+    const startStrFormatted = new Intl.NumberFormat('en-US').format(startStr);
+    const endStrFormatted = new Intl.NumberFormat('en-US').format(endStr);
+    return { value: obj.value, label: `$${startStrFormatted} - $${endStrFormatted}`, color: obj.color };
+  }
+
   clearSelectedFeatures() {
     this.graphicsLayer.removeAll();
   }
@@ -254,6 +261,8 @@ export class MapService {
 
         if (variable.valueType === 'percentage') {
           breaks = breaks.map(x => this.addPercentSymbolToBreaks(x));
+        } else if (variable.valueType === 'money') {
+          breaks = breaks.map(x => this.addMoneySymbolToBreaks(x));
         }
 
         const colorVariable = new ColorVariable({
