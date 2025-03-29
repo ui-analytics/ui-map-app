@@ -1,0 +1,11 @@
+#autocorrelationCard {
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #c0c0c0;
+}
+
+#autocorrelation-header {
+    display: flex;
+    justify-content: space-between;
+}
+

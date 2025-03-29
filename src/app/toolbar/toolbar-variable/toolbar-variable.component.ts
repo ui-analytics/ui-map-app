@@ -43,7 +43,8 @@ export class ToolbarVariableComponent {
 
       if (this.variable.disabled == true) {
         this.disabled = true;
-        this.backgroundColor = "#44474e"
+        this.backgroundColor ="#555555"
+        // this.backgroundColor = "#61646b"
       }
     });
   }

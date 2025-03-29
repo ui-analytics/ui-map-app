@@ -7,7 +7,7 @@ export const MAPS: Map[] = [
     mapId: 1,
     name: 'Urban Institute Census Tracts',
     portalItem: {
-      id: 'e5d0590d2280423a9e146a4fc0c16b01'
+      id: 'a50c0dcfa0cf486b9de82fa86817a367'
     },
     mapType: MapType.featureLayer,
     location_type: 'Census Tract'

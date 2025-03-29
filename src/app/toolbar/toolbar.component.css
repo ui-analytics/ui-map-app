@@ -27,8 +27,8 @@
   padding:0%;
   background-color: none;
   z-index: 2;
-  opacity: .70;
-  min-width: 800px;
+  opacity: .95;
+  /* min-width: 800px; */
   max-height: 95px;
   overflow-y: auto;
 }
@@ -43,5 +43,17 @@
   display: inline-flex;
   overflow: hidden;
   border-radius: 4px;
-  
+ 
 }
+
+/* @media (max-width: 750px) {
+  #variablesDiv {
+    width: 200px;
+    top: 200px;
+    justify-content;
+  }
+
+  #variableGroup {
+    flex-wrap: nowrap;
+  }
+} */

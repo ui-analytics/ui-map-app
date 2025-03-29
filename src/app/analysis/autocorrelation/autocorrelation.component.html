@@ -1,0 +1,22 @@
+<mat-card id="autocorrelationCard">
+    <mat-card-header id="autocorrelation-header">
+        <mat-card-title>Explore Spatial Patterns</mat-card-title>
+        <mat-slide-toggle 
+          id="autocorrelation-toggle"
+          [checked]="checked"
+          (change)="onToggleChange($event)"
+          >
+      </mat-slide-toggle>
+    </mat-card-header>
+
+    <form *ngIf="checked" class="autocorrelation-form">
+        <mat-label>Filter by Category</mat-label>
+        <mat-select multiple aria-expanded="true" (valueChange)="onFilterChange($event)">
+            <mat-option value="HH" style="background-color: #FF8A65">High-High</mat-option>
+            <mat-option value="HL" style="background-color: #FFCCBC">High-Low</mat-option>
+            <mat-option value="LH" style="background-color: #4FC3F7">Low-High</mat-option>
+            <mat-option value="LL" style="background-color: #0288D1">Low-Low</mat-option>
+        </mat-select>
+          
+      </form>
+</mat-card>

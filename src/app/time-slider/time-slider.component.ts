@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 
 import classBreaks from "@arcgis/core/smartMapping/statistics/classBreaks.js";
 import ColorVariable from '@arcgis/core/renderers/visualVariables/ColorVariable';
+import { MapDefExpression } from '../shared/models/map-def-expr';
 
 
 
@@ -24,6 +25,8 @@ export class TimeSliderComponent implements OnInit {
   private variableSubscription:Subscription;
 
   currentVariable?: MapVariable;
+  defExpressions: MapDefExpression = {year:''};
+  defExpressionString: string = '';
 
   constructor(private mapService: MapService) { 
     this.variableSubscription = this.mapService.getCurrentVariable().subscribe((variable) => {
@@ -35,8 +38,10 @@ export class TimeSliderComponent implements OnInit {
       this.options = {
         stepsArray: this.yearsAvailable
       };
-      // set value to the last element
-      this.value = variable.yearsAvailable.at(-1) ?? 0;
+
+      if (!variable.yearsAvailable.includes(this.value)) {
+        this.value = variable.yearsAvailable.at(-1) ?? 0;
+      } 
     });
   }
 
@@ -47,12 +52,29 @@ export class TimeSliderComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.mapService.variableFL.definitionExpression = `year = ${this.value}`;
+    
+    this.mapService.getDefinitionExpressions().subscribe(exp => {
+      console.log('DEFINITION EXPRESSIONS:',exp)
+      this.defExpressions = exp;
+      this.defExpressionString = Object.values(this.defExpressions).join(" and ");
+      this.mapService.variableFL.definitionExpression = this.defExpressionString;
+    })
+
+    this.defExpressions.year = `year = ${this.value}`
+    this.mapService.updateDefinitionExpressions(this.defExpressions);
+
+    // this.mapService.variableFL.definitionExpression = `year = ${this.value}`;
+    this.mapService.variableFL.definitionExpression = this.defExpressionString;
   }
 
   onValueChange(event:any): void{
     this.value = event;
-    this.mapService.variableFL.definitionExpression = `year = ${this.value}`;
+    
+    this.defExpressions.year = `year = ${this.value}`
+    this.mapService.updateDefinitionExpressions(this.defExpressions);
+
+    // this.mapService.variableFL.definitionExpression = `year = ${this.value}`;
+    this.mapService.variableFL.definitionExpression = this.defExpressionString;
 
     classBreaks({
               layer: this.mapService.variableFL,
@@ -63,13 +85,15 @@ export class TimeSliderComponent implements OnInit {
               let breaks = res.classBreakInfos.map((info, i) => ({
                 value: info.maxValue,
                 label: info.label,
-                color: this.mapService.colors[i]
+                color: this.mapService.defaultColors[i]
               }))
 
               breaks = breaks.map(x => this.mapService.roundBreakLabel(x));        
               
               if (this.currentVariable?.valueType === 'percentage') {
                 breaks = breaks.map(x => this.mapService.addPercentSymbolToBreaks(x));    
+              } else if (this.currentVariable?.valueType === 'money') {
+                breaks = breaks.map(x => this.mapService.addMoneySymbolToBreaks(x));
               }
     
               const colorVariable = new ColorVariable({

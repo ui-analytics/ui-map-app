@@ -1,4 +1,8 @@
 .mat-button-toggle.mat-button-toggle-checked {
-    background-color: #77791e !important; /* Change to your desired color */
-    color: white !important; /* Change text color */
+    background-color: #77791e !important;
   }
+  .mat-button-toggle{
+    /* font-weight: bold; */
+    color: #fff;
+  }
+  

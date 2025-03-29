@@ -20,6 +20,7 @@ import { MapVariable } from '../shared/models/map-variable';
 import { MapMode } from '../shared/enums/map-mode.enum';
 
 import MapButtonWidget from '../shared/tools/map-button';
+import { MAP_VARIABLE } from '../shared/mocks/mock-map-variable';
 
 
 @Component({
@@ -35,10 +36,12 @@ export class MapComponent implements OnInit, OnDestroy {
   @ViewChild('mapViewNode', { static: true }) private mapViewEl!: ElementRef;
 
   private variableSubscription:Subscription;
+  private mapModeSubscription?:Subscription;
 
   project?:Project;
   projectMaps: ModelMap[] = [];
-  currentVariable?: MapVariable;
+  currentVariable: MapVariable = MAP_VARIABLE[0];
+  mapMode:MapMode = MapMode.default;
   
 
   constructor(private mapService: MapService) {
@@ -109,6 +112,7 @@ export class MapComponent implements OnInit, OnDestroy {
     this.mapService.legend.view = this.mapService.mapView;
     this.mapService.legend.layerInfos = [{layer:this.mapService.variableFL}]
     this.mapService.mapView.ui.add(this.mapService.legend, "bottom-right");
+    
 
     let basemapGallery = new BasemapGallery({
       view: this.mapService.mapView
@@ -162,40 +166,36 @@ export class MapComponent implements OnInit, OnDestroy {
 
   ngOnInit(): any {
     this.initializeMap().then(r => {
-      this.mapService.getCurrentVariable().subscribe((value) => {
-        this.currentVariable = value;
+      let fieldName:string;
+
+      this.mapModeSubscription = this.mapService.getMapMode().subscribe((mode)=> {
+        this.mapMode = mode
+        // console.log('MAP MODE:',this.mapMode);
+        if (this.mapMode == MapMode.autocorrelation) {
+          fieldName = this.currentVariable.moransField
+        } else {
+          fieldName = this.currentVariable.fieldName
+          
+        }
+        this.mapService.renderVariable(this.currentVariable,fieldName,this.mapMode);
+
+
         
-        classBreaks({
-          layer: this.mapService.variableFL,
-          field: this.currentVariable.fieldName,
-          classificationMethod: 'natural-breaks',
-          numClasses:5
-        }).then(res => {
-          let breaks = res.classBreakInfos.map((info, i) => ({
-            value: info.maxValue,
-            label: info.label,
-            color: this.mapService.colors[i]
-          }))
+      });
 
-          breaks = breaks.map(x => this.mapService.roundBreakLabel(x));    
-           
-          if (this.currentVariable?.valueType === 'percentage') {
-            breaks = breaks.map(x => this.mapService.addPercentSymbolToBreaks(x));    
-          }
+      this.mapService.getCurrentVariable().subscribe((value) => {
+        let fieldName:string;
+        this.currentVariable = value;
+        // console.log(this.currentVariable);
+        let autoCorrelationVariable:MapVariable;
+        if (this.mapMode == MapMode.autocorrelation) {
+          fieldName = this.currentVariable.moransField
+        } else {
+          fieldName = this.currentVariable.fieldName
+        }
 
-          const colorVariable = new ColorVariable({
-            field: this.currentVariable?.fieldName,
-            stops: breaks
-          })
+        this.mapService.renderVariable(this.currentVariable,fieldName,this.mapMode);
 
-          this.mapService.getMapMode().subscribe((mode)=> {
-                if (mode == MapMode.default) {
-                  this.mapService.defaultRenderer.visualVariables = [colorVariable];
-                  this.mapService.variableFL.renderer = this.mapService.defaultRenderer;
-                  this.mapService.legend.layerInfos = [{layer:this.mapService.variableFL}]
-                }
-              });
-        })
       })
       return r;
     });
@@ -207,4 +207,41 @@ export class MapComponent implements OnInit, OnDestroy {
       this.view.destroy();
     }
   }
+
+  // renderVariable() {
+  //   console.log('FIELD_NAME:', this.currentVariable?.fieldName);
+        
+        
+  //       classBreaks({
+  //         layer: this.mapService.variableFL,
+  //         field: this.currentVariable?.fieldName,
+  //         classificationMethod: 'natural-breaks',
+  //         numClasses:5
+  //       }).then(res => {
+  //         let breaks = res.classBreakInfos.map((info, i) => ({
+  //           value: info.maxValue,
+  //           label: info.label,
+  //           color: this.mapService.defaultColors[i]
+  //         }))
+
+  //         breaks = breaks.map(x => this.mapService.roundBreakLabel(x));    
+           
+  //         if (this.currentVariable?.valueType === 'percentage') {
+  //           breaks = breaks.map(x => this.mapService.addPercentSymbolToBreaks(x));    
+  //         }
+
+  //         const colorVariable = new ColorVariable({
+  //           field: this.currentVariable?.fieldName,
+  //           stops: breaks
+  //         })
+
+  //         this.mapService.getMapMode().subscribe((mode)=> {
+  //               if (mode == MapMode.default) {
+  //                 this.mapService.defaultRenderer.visualVariables = [colorVariable];
+  //                 this.mapService.variableFL.renderer = this.mapService.defaultRenderer;
+  //                 this.mapService.legend.layerInfos = [{layer:this.mapService.variableFL}]
+  //               }
+  //             });
+  //       })
+  // }
 }
