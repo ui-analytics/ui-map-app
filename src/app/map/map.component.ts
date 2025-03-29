@@ -112,6 +112,7 @@ export class MapComponent implements OnInit, OnDestroy {
     this.mapService.legend.view = this.mapService.mapView;
     this.mapService.legend.layerInfos = [{layer:this.mapService.variableFL}]
     this.mapService.mapView.ui.add(this.mapService.legend, "bottom-right");
+    
 
     let basemapGallery = new BasemapGallery({
       view: this.mapService.mapView
@@ -171,9 +172,9 @@ export class MapComponent implements OnInit, OnDestroy {
         this.mapMode = mode
         // console.log('MAP MODE:',this.mapMode);
         if (this.mapMode == MapMode.autocorrelation) {
-          fieldName = this.currentVariable?.moransField
+          fieldName = this.currentVariable.moransField
         } else {
-          fieldName = this.currentVariable?.fieldName
+          fieldName = this.currentVariable.fieldName
           
         }
         this.mapService.renderVariable(this.currentVariable,fieldName,this.mapMode);
@@ -188,15 +189,13 @@ export class MapComponent implements OnInit, OnDestroy {
         // console.log(this.currentVariable);
         let autoCorrelationVariable:MapVariable;
         if (this.mapMode == MapMode.autocorrelation) {
-          fieldName = this.currentVariable?.moransField
+          fieldName = this.currentVariable.moransField
         } else {
-          fieldName = this.currentVariable?.fieldName
+          fieldName = this.currentVariable.fieldName
         }
 
         this.mapService.renderVariable(this.currentVariable,fieldName,this.mapMode);
 
-        
-        
       })
       return r;
     });
