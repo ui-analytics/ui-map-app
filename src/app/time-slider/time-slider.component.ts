@@ -38,8 +38,10 @@ export class TimeSliderComponent implements OnInit {
       this.options = {
         stepsArray: this.yearsAvailable
       };
-      // set value to the last element
-      this.value = variable.yearsAvailable.at(-1) ?? 0;
+
+      if (!variable.yearsAvailable.includes(this.value)) {
+        this.value = variable.yearsAvailable.at(-1) ?? 0;
+      } 
     });
   }
 
@@ -50,6 +52,7 @@ export class TimeSliderComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    
     this.mapService.getDefinitionExpressions().subscribe(exp => {
       console.log('DEFINITION EXPRESSIONS:',exp)
       this.defExpressions = exp;
@@ -66,6 +69,7 @@ export class TimeSliderComponent implements OnInit {
 
   onValueChange(event:any): void{
     this.value = event;
+    
     this.defExpressions.year = `year = ${this.value}`
     this.mapService.updateDefinitionExpressions(this.defExpressions);
 
