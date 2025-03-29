@@ -47,6 +47,14 @@ export class AutocorrelationComponent {
 
     this.variableSubscription = this.mapService.getCurrentVariable().subscribe((variable) => {
       this.currentVariable = variable;
+      
+      if (this.defExpressions.autocorrelation) {
+        let expression = `${this.currentVariable?.moransField} in (${this.selectedCategories})`
+        this.defExpressions.autocorrelation = expression;
+        this.defExpressionString = Object.values(this.defExpressions).join(" and ");
+        this.mapService.variableFL.definitionExpression = this.defExpressionString;
+        this.mapService.updateDefinitionExpressions(this.defExpressions);
+      }
     })
 
     this.mapService.getDefinitionExpressions().subscribe(exp => {
