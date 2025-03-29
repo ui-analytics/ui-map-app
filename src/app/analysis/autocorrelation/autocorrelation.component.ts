@@ -42,7 +42,10 @@ export class AutocorrelationComponent {
             this.checked = true;
           } else {
             this.checked = false;
+            delete this.defExpressions.autocorrelation;
+            this.mapService.updateDefinitionExpressions(this.defExpressions);
           }
+          
         });
 
     this.variableSubscription = this.mapService.getCurrentVariable().subscribe((variable) => {
