@@ -17,5 +17,7 @@
 }
 
 #bivariateCard {
-    margin-top:30px;
+    margin:5px;
+    padding: 5px;
+    border: 1px solid #c0c0c0;
 }
