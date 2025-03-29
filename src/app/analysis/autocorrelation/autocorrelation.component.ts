@@ -32,6 +32,7 @@ export class AutocorrelationComponent {
   checked: boolean = false;
   filterControl = new FormControl();
   currentVariable?: MapVariable;
+  selectedCategories: string = '';
   
   defExpressions: MapDefExpression = {year:''};
   defExpressionString: string = '';
@@ -89,8 +90,8 @@ export class AutocorrelationComponent {
   onFilterChange(event:string[]) {
     let expression = '';
     if (event.length > 0) {
-      let categories = event.map(s => `'${s}'`).join(',');
-      expression = `${this.currentVariable?.moransField} in (${categories})`
+      this.selectedCategories = event.map(s => `'${s}'`).join(',');
+      expression = `${this.currentVariable?.moransField} in (${this.selectedCategories})`
       this.defExpressions.autocorrelation = expression;
     } else {
       delete this.defExpressions.autocorrelation;
