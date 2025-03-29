@@ -54,7 +54,6 @@ export class TimeSliderComponent implements OnInit {
       console.log('DEFINITION EXPRESSIONS:',exp)
       this.defExpressions = exp;
       this.defExpressionString = Object.values(this.defExpressions).join(" and ");
-      console.log(this.defExpressionString);
       this.mapService.variableFL.definitionExpression = this.defExpressionString;
     })
 
