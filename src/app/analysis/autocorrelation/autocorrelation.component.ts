@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule,Validators} from '@angular/forms';
+import {FormControl} from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 import { MatCardModule }  from '@angular/material/card'
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
@@ -15,7 +16,7 @@ import { MapDefExpression } from '../../shared/models/map-def-expr';
 
 @Component({
   selector: 'app-autocorrelation',
-  imports: [MatCardModule,MatSlideToggleModule,MatFormFieldModule,MatSelectModule],
+  imports: [MatCardModule,MatSlideToggleModule,MatFormFieldModule,MatSelectModule,CommonModule],
   templateUrl: './autocorrelation.component.html',
   styleUrl: './autocorrelation.component.css'
 })

@@ -9,7 +9,7 @@
       </mat-slide-toggle>
     </mat-card-header>
 
-    <form class="autocorrelation-form">
+    <form *ngIf="checked" class="autocorrelation-form">
         <mat-label>Filter by Category</mat-label>
         <mat-select multiple aria-expanded="true" (valueChange)="onFilterChange($event)">
             <mat-option value="HH" style="background-color: #FF8A65">High-High</mat-option>
