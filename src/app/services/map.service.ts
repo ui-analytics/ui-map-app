@@ -236,7 +236,7 @@ export class MapService {
 
   renderVariable(variable: MapVariable, fieldName:string, mapMode: MapMode) {
 
-    console.log('VARIABLE:', fieldName);
+    // console.log('VARIABLE:', variable.name);
     if (mapMode == MapMode.default) {
       classBreaks({
         layer: this.variableFL,
@@ -261,19 +261,13 @@ export class MapService {
           stops: breaks
         })
 
-
         this.defaultRenderer.visualVariables = [colorVariable];
         this.variableFL.renderer = this.defaultRenderer;
-
-
+        this.legend.layerInfos = [{layer:this.variableFL}]
       })
     } else if (mapMode == MapMode.autocorrelation) {
       this.autocorrelationRenderer.field = fieldName;
       this.variableFL.renderer = this.autocorrelationRenderer;
     }
-
-    this.legend.layerInfos = [{ layer: this.variableFL }]
-
-
   }
 }
