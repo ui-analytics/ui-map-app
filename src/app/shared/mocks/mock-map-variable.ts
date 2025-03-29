@@ -187,7 +187,7 @@ export const MAP_VARIABLE: MapVariable[] = [
         fieldName: 'medianhouseholdincomee',
         bivariateField: 'z_medianhouseholdincomee',
         moransField: 'sig_quad_medianhouseholdincomee',
-        valueType: 'numeric',
+        valueType: 'money',
         yearsAvailable: [2018,2019,2020,2021,2022,2023],
         disabled: false,
         },
@@ -214,7 +214,7 @@ export const MAP_VARIABLE: MapVariable[] = [
         {
         variableId: 22,
         name: 'Education Level - Bachelors Degree',
-        fieldName: 'percentatleastbachelors',
+        fieldName: 'percentadultswithatleastbachelo',
         bivariateField: 'z_percentadultswithatleastbache',
         moransField: 'sig_quad_percentadultswithatlea',
         valueType: 'percentage',
