@@ -4,7 +4,7 @@ import Basemap from "@arcgis/core/Basemap.js";
 
 export const PROJECT: Project[] = [{
     projectId: 1,
-    name: 'Regional Explorer',
+    name: 'Carolinas Regional Explorer',
     // basemap: 'dark-gray',
     basemap: new Basemap({
       portalItem: {

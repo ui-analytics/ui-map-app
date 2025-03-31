@@ -1,6 +1,6 @@
 <mat-card id="autocorrelationCard">
     <mat-card-header id="autocorrelation-header">
-        <mat-card-title>Explore Spatial Patterns</mat-card-title>
+        <mat-card-title>Explore Spatial Patterns and Hotspots</mat-card-title>
         <mat-slide-toggle 
           id="autocorrelation-toggle"
           [checked]="checked"
@@ -8,9 +8,9 @@
           >
       </mat-slide-toggle>
     </mat-card-header>
-
+    <p>This tool analyzes clustering patterns of an indicator and identifies hot and cold spots.</p>
     <form *ngIf="checked" class="autocorrelation-form">
-        <mat-label>Filter by Category</mat-label>
+        <mat-label>Filter each type of cluster</mat-label>
         <mat-select multiple aria-expanded="true" (valueChange)="onFilterChange($event)">
             <mat-option value="HH" style="background-color: #FF8A65">High-High</mat-option>
             <mat-option value="HL" style="background-color: #FFCCBC">High-Low</mat-option>

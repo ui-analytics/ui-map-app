@@ -1,6 +1,6 @@
 <mat-card id="bivariateCard">
     <mat-card-header id="bivariate-header">
-        <mat-card-title>Explore Relationships</mat-card-title>
+        <mat-card-title>Analyze Relationships between two indicators</mat-card-title>
         <mat-slide-toggle *ngIf="isToggled()"
           id="bivariate-toggle"
           [checked]="checked"
@@ -8,12 +8,12 @@
           >
       </mat-slide-toggle>
     </mat-card-header>
-
+    <p>This tool analyzes associations between a pair of indicators in the explorer.</p>
     <form class="bivariate-form">
         <mat-form-field class="bivariate-form-field">
-          <mat-label>Field 1</mat-label>
+          <mat-label>Select first indicator</mat-label>
           <input type="text"
-                 placeholder="Select a Field"
+                 placeholder="Select first indicator"
                  aria-label="Field"
                  matInput
                  [formControl]="field1Control"
@@ -31,9 +31,9 @@
         </mat-form-field>
 
         <mat-form-field class="bivariate-form-field">
-            <mat-label>Field 2</mat-label>
+            <mat-label>Select second indicator</mat-label>
             <input type="text"
-                   placeholder="Select a Field"
+                   placeholder="Select second indicator"
                    aria-label="Field"
                    matInput
                    [formControl]="field2Control"
@@ -50,7 +50,7 @@
             
           </mat-form-field>
           <div id="button-div">
-                <button id="button" (click)="onRunClick($event)" [disabled]="isFormInvalid()" mat-flat-button>Run Analysis</button>
+                <button id="button" (click)="onRunClick($event)" [disabled]="isFormInvalid()" mat-flat-button>Analyze correlation</button>
           </div>
       </form>
 </mat-card>

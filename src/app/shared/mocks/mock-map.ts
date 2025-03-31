@@ -5,7 +5,7 @@ import { Map } from '../models/map';
 export const MAPS: Map[] = [
   {
     mapId: 1,
-    name: 'Urban Institute Census Tracts',
+    name: 'Census Tracts',
     portalItem: {
       id: 'a50c0dcfa0cf486b9de82fa86817a367'
     },

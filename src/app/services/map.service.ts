@@ -60,7 +60,7 @@ export class MapService {
 
   autocorrelationRenderer = new UniqueValueRenderer({
     defaultSymbol:this.autocorrelationDefaultSymbol,
-    defaultLabel:'Not Significant',
+    defaultLabel:'Not Significant Areas',
     uniqueValueInfos: [{
       value: "HH",
       symbol: new SimpleFillSymbol({
@@ -71,7 +71,7 @@ export class MapService {
           width: "2px"
         }
       }),
-      label: 'High-High'
+      label: 'High-High (Areas with high value clustered with high value neighbors)'
     },
     {
       value: "HL",
@@ -83,7 +83,7 @@ export class MapService {
           width: "2px"
         }
       }),
-      label: 'High-Low'
+      label: 'High-Low (Areas with high value clustered with low value neighbors)'
     },
     {
       value: "LH",
@@ -95,7 +95,7 @@ export class MapService {
           width: "2px"
         }
       }),
-      label: 'Low-High'
+      label: 'Low-High (Areas with low value clustered with high value neighbors)'
     },
     {
         value: "LL",
@@ -107,7 +107,7 @@ export class MapService {
             width: "2px"
           }
         }),
-        label: 'Low-Low'
+        label: 'Low-Low (Areas with low value clustered with low value neighbors)'
       }]
   })
 
