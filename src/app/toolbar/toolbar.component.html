@@ -10,7 +10,7 @@
     </div>
 
     <div id="right-sidenav">
-        <mat-button-toggle-group [hideSingleSelectionIndicator]="hideSelection" (change)="onToggleGroupChange($event)">
+        <mat-button-toggle-group id="categoryGroup" [hideSingleSelectionIndicator]="hideSelection" (change)="onToggleGroupChange($event)">
             <app-toolbar-item *ngFor="let category of categories;" [category]="category" style="display: flex;"></app-toolbar-item>
         </mat-button-toggle-group>
     </div>
