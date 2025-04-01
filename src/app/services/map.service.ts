@@ -60,7 +60,7 @@ export class MapService {
 
   autocorrelationRenderer = new UniqueValueRenderer({
     defaultSymbol:this.autocorrelationDefaultSymbol,
-    defaultLabel:'Not Significant Areas',
+    defaultLabel:'No significant clustering pattern',
     uniqueValueInfos: [{
       value: "HH",
       symbol: new SimpleFillSymbol({
