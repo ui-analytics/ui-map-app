@@ -158,8 +158,18 @@ export class MapComponent implements OnInit, OnDestroy {
           this.mapService.toggleMapVisibility();
         }});
       this.mapService.mapView.ui.add(toggleMapVisibleWidget,'top-left');
-    })
     
+    const userGuideWidget = new MapButtonWidget({
+      iconClass:'esri-icon-documentation',
+      label:'Goto User Guide',
+      name:'user-guide',
+      onClick: () => {
+        window.open("https://regionalexplorerguide.netlify.app", "_blank");
+      }});
+    this.mapService.mapView.ui.add(userGuideWidget,'top-left');
+  
+    })
+
 
   }
 
