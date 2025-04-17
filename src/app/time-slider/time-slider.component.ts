@@ -11,6 +11,8 @@ import { Subscription } from 'rxjs';
 
 import classBreaks from "@arcgis/core/smartMapping/statistics/classBreaks.js";
 import ColorVariable from '@arcgis/core/renderers/visualVariables/ColorVariable';
+import * as relationshipRendererCreator from "@arcgis/core/smartMapping/renderers/relationship.js";
+
 import { MapDefExpression } from '../shared/models/map-def-expr';
 
 
@@ -76,6 +78,8 @@ export class TimeSliderComponent implements OnInit {
     // this.mapService.variableFL.definitionExpression = `year = ${this.value}`;
     this.mapService.variableFL.definitionExpression = this.defExpressionString;
 
+    
+
     classBreaks({
               layer: this.mapService.variableFL,
               field: this.currentVariable?.fieldName,
@@ -106,6 +110,10 @@ export class TimeSliderComponent implements OnInit {
                       this.mapService.defaultRenderer.visualVariables = [colorVariable];
                       this.mapService.variableFL.renderer = this.mapService.defaultRenderer;
                       this.mapService.legend.layerInfos = [{layer:this.mapService.variableFL}]
+                    } else if (mode == MapMode.bivariate) {
+                      relationshipRendererCreator.createRenderer(this.mapService.bivariateParams).then((response) => {
+                            this.mapService.variableFL.renderer = response.renderer;
+                      });
                     }
                   });
             })
