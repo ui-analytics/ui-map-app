@@ -120,7 +120,7 @@ export class BivariateComponent implements OnInit {
     
     this.mapService.setMapMode(MapMode.bivariate);
 
-    const params = {
+    this.mapService.bivariateParams = {
       layer: this.mapService.variableFL,
       view: this.mapService.mapView,
       field1: {
@@ -137,7 +137,7 @@ export class BivariateComponent implements OnInit {
     };
     
     
-    relationshipRendererCreator.createRenderer(params).then((response) => {
+    relationshipRendererCreator.createRenderer(this.mapService.bivariateParams).then((response) => {
       this.mapService.variableFL.renderer = response.renderer;
     });
     

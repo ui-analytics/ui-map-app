@@ -46,6 +46,7 @@ export class MapService {
   variableFL: FeatureLayer = new FeatureLayer();
   legend: Legend = new Legend()
   graphicsLayer = new GraphicsLayer();
+  bivariateParams: any = {};
 
   autocorrelationDefaultSymbol = 
     new SimpleFillSymbol({
