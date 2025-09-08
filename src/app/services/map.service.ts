@@ -44,6 +44,8 @@ export class MapService {
   colorVariable: ColorVariable = new ColorVariable();
   defaultColors: string[] = ["#eefae3", "#bae4bc", "#bae4bc", "#43a2ca", "#0868ac"];
   variableFL: FeatureLayer = new FeatureLayer();
+  // create version of variableFL with all years
+  variableAllYearsFL: FeatureLayer = new FeatureLayer();
   legend: Legend = new Legend()
   graphicsLayer = new GraphicsLayer();
   bivariateParams: any = {};
@@ -247,7 +249,7 @@ export class MapService {
     // console.log('VARIABLE:', variable.name);
     if (mapMode == MapMode.default) {
       classBreaks({
-        layer: this.variableFL,
+        layer: this.variableAllYearsFL,
         field: fieldName,
         classificationMethod: 'natural-breaks',
         numClasses: 5
