@@ -79,46 +79,6 @@ export class TimeSliderComponent implements OnInit {
     this.mapService.variableFL.definitionExpression = this.defExpressionString;
 
     
-
-    classBreaks({
-              layer: this.mapService.variableFL,
-              field: this.currentVariable?.fieldName,
-              classificationMethod: 'natural-breaks',
-              numClasses:5
-            }).then(res => {
-              let breaks = res.classBreakInfos.map((info, i) => ({
-                value: info.maxValue,
-                label: info.label,
-                color: this.mapService.defaultColors[i]
-              }))
-
-              breaks = breaks.map(x => this.mapService.roundBreakLabel(x));        
-              
-              if (this.currentVariable?.valueType === 'percentage') {
-                breaks = breaks.map(x => this.mapService.addPercentSymbolToBreaks(x));    
-              } else if (this.currentVariable?.valueType === 'money') {
-                breaks = breaks.map(x => this.mapService.addMoneySymbolToBreaks(x));
-              }
-    
-              const colorVariable = new ColorVariable({
-                field: this.currentVariable?.fieldName,
-                stops: breaks
-              })
-    
-              this.mapService.getMapMode().subscribe((mode)=> {
-                    if (mode == MapMode.default) {
-                      this.mapService.defaultRenderer.visualVariables = [colorVariable];
-                      this.mapService.variableFL.renderer = this.mapService.defaultRenderer;
-                      this.mapService.legend.layerInfos = [{layer:this.mapService.variableFL}]
-                    } else if (mode == MapMode.bivariate) {
-                      relationshipRendererCreator.createRenderer(this.mapService.bivariateParams).then((response) => {
-                            this.mapService.variableFL.renderer = response.renderer;
-                      });
-                    }
-                  });
-            })
-
-
   }
 }
 
