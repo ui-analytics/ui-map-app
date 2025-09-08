@@ -81,12 +81,24 @@ export class MapComponent implements OnInit, OnDestroy {
             popupEnabled
           });
 
+          // variable feature layer for all years and not visible in map
+          // used in calculations 
+          const variableAllYearsFL: FeatureLayer = new FeatureLayer({
+            portalItem: m.portalItem,
+            opacity,
+            visible:false,
+            title:m.name,
+            popupEnabled:false
+          });
+
           if (variableControlled) {
-            this.mapService.variableFL = fl 
+            this.mapService.variableFL = fl
+            this.mapService.variableAllYearsFL = variableAllYearsFL 
           }
           
           m.mapObject = fl
           this.mapService.esriMap.add(fl);
+          this.mapService.esriMap.add(variableAllYearsFL);
         }
       })
 
