@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 import { from, Observable, Observer, of, BehaviorSubject } from 'rxjs';
 
 import { Project } from '../shared/models/project';
@@ -38,6 +40,8 @@ export class MapService {
   project!: Project;
   mapCategories: MapCategory[] = [];
   mapVariables: MapVariable[] = [];
+
+  constructor(private http: HttpClient) { }
   extents: Extent[] = EXTENT;
   esriMap!: Map;
   mapView!: MapView;
@@ -133,7 +137,19 @@ export class MapService {
   private definitionExpressions = new BehaviorSubject<MapDefExpression>({year:''});
   projectMaps?: Observable<ModelMap[]>;
 
-  constructor() { }
+
+  // API integration methods
+  getProjectFromApi(projectName: string): Observable<Project> {
+    return this.http.get<Project>(`${environment.apiUrl}/projects/${encodeURIComponent(projectName)}`);
+  }
+
+  getCategoriesFromApi(): Observable<MapCategory[]> {
+    return this.http.get<MapCategory[]>(`${environment.apiUrl}/categories`);
+  }
+
+  getVariablesFromApi(): Observable<MapVariable[]> {
+    return this.http.get<MapVariable[]>(`${environment.apiUrl}/variables`);
+  }
 
   getProjectById(id: number): Observable<Project> {
     return of(PROJECT.filter((project) => project.projectId === id).reduce((acc: any, it) => it, {}));
