@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
 import { from, Observable, Observer, of, BehaviorSubject } from 'rxjs';
+
+import { environment } from '../../environments/environment';
 
 import { Project } from '../shared/models/project';
 import { PROJECT } from '../shared/mocks/mock-project';
@@ -40,8 +41,6 @@ export class MapService {
   project!: Project;
   mapCategories: MapCategory[] = [];
   mapVariables: MapVariable[] = [];
-
-  constructor(private http: HttpClient) { }
   extents: Extent[] = EXTENT;
   esriMap!: Map;
   mapView!: MapView;
@@ -137,30 +136,34 @@ export class MapService {
   private definitionExpressions = new BehaviorSubject<MapDefExpression>({year:''});
   projectMaps?: Observable<ModelMap[]>;
 
-
-  // API integration methods
-  getProjectFromApi(projectName: string): Observable<Project> {
-    return this.http.get<Project>(`${environment.apiUrl}/projects/${encodeURIComponent(projectName)}`);
-  }
-
-  getCategoriesFromApi(): Observable<MapCategory[]> {
-    return this.http.get<MapCategory[]>(`${environment.apiUrl}/categories`);
-  }
-
-  getVariablesFromApi(): Observable<MapVariable[]> {
-    return this.http.get<MapVariable[]>(`${environment.apiUrl}/variables`);
-  }
+  constructor(private http: HttpClient) { }
 
   getProjectById(id: number): Observable<Project> {
-    return of(PROJECT.filter((project) => project.projectId === id).reduce((acc: any, it) => it, {}));
+    if (environment.useApi) {
+      // For API, we'll use the project name instead of ID
+      // You may want to modify this based on your needs
+      return this.getProjectFromApi('Regional Explorer');
+    } else {
+      return of(PROJECT.filter((project) => project.projectId === id).reduce((acc: any, it) => it, {}));
+    }
   }
 
   getMapCategories(): Observable<MapCategory[]> {
-    return of(MAP_CATEGORY.filter(mc => this.project?.mapCategories.includes(mc.categoryId)));
+    if (environment.useApi) {
+      return this.getCategoriesFromApi();
+    } else {
+      return of(MAP_CATEGORY.filter(mc => this.project?.mapCategories.includes(mc.categoryId)));
+    }
   }
 
   getMapVariables(mapVariables: Number[]): Observable<MapVariable[]> {
-    return of(MAP_VARIABLE.filter(mv => mapVariables.includes(mv.variableId)));
+    if (environment.useApi) {
+      // When using API, we get all variables and filter client-side for now
+      // Could be optimized to pass IDs to API endpoint in the future
+      return this.getVariablesFromApi();
+    } else {
+      return of(MAP_VARIABLE.filter(mv => mapVariables.includes(mv.variableId)));
+    }
   }
 
   getCurrentCategory(): Observable<MapCategory> {
@@ -210,6 +213,19 @@ export class MapService {
   getMaps(): Observable<ModelMap[]> {
     const mapIds = this.project.maps.map(m => m.mapId);
     return of(MAPS.filter(map => mapIds.includes(map.mapId)));
+  }
+
+  // --- API Methods ---
+  getProjectFromApi(projectName: string): Observable<Project> {
+    return this.http.get<Project>(`${environment.apiUrl}/projects/${encodeURIComponent(projectName)}`);
+  }
+
+  getCategoriesFromApi(): Observable<MapCategory[]> {
+    return this.http.get<MapCategory[]>(`${environment.apiUrl}/categories`);
+  }
+
+  getVariablesFromApi(): Observable<MapVariable[]> {
+    return this.http.get<MapVariable[]>(`${environment.apiUrl}/variables`);
   }
 
   updateMaps(maps: ModelMap[]) {

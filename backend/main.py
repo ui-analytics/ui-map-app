@@ -33,7 +33,7 @@ class MapVariableBase(BaseModel):
     disabled: bool
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class CategoryBase(BaseModel):
     id: int
@@ -41,7 +41,7 @@ class CategoryBase(BaseModel):
     variables: List[MapVariableBase] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ProjectBase(BaseModel):
     id: int
@@ -49,7 +49,7 @@ class ProjectBase(BaseModel):
     categories: List[CategoryBase] = []
     
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # --- API Endpoints ---
 @app.get("/")
