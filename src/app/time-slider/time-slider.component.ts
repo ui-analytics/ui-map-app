@@ -56,17 +56,17 @@ export class TimeSliderComponent implements OnInit {
   ngOnInit(): void {
     
     this.mapService.getDefinitionExpressions().subscribe(exp => {
-      console.log('DEFINITION EXPRESSIONS:',exp)
       this.defExpressions = exp;
       this.defExpressionString = Object.values(this.defExpressions).join(" and ");
-      this.mapService.variableFL.definitionExpression = this.defExpressionString;
+      // console.log(this.defExpressionString)
+      // this.mapService.variableFL.definitionExpression = this.defExpressionString;
     })
 
     this.defExpressions.year = `year = ${this.value}`
     this.mapService.updateDefinitionExpressions(this.defExpressions);
 
     // this.mapService.variableFL.definitionExpression = `year = ${this.value}`;
-    this.mapService.variableFL.definitionExpression = this.defExpressionString;
+    // this.mapService.variableFL.definitionExpression = this.defExpressionString;
   }
 
   onValueChange(event:any): void{
@@ -76,7 +76,7 @@ export class TimeSliderComponent implements OnInit {
     this.mapService.updateDefinitionExpressions(this.defExpressions);
 
     // this.mapService.variableFL.definitionExpression = `year = ${this.value}`;
-    this.mapService.variableFL.definitionExpression = this.defExpressionString;
+    // this.mapService.variableFL.definitionExpression = this.defExpressionString;
 
     
   }
