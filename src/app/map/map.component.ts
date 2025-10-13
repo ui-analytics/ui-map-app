@@ -7,6 +7,7 @@ import Home from "@arcgis/core/widgets/Home.js";
 import BasemapGallery from "@arcgis/core/widgets/BasemapGallery.js";
 import classBreaks from "@arcgis/core/smartMapping/statistics/classBreaks.js";
 import ColorVariable from '@arcgis/core/renderers/visualVariables/ColorVariable';
+import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter.js";
 import Expand from '@arcgis/core/widgets/Expand';
 
 import { MapService } from '../services/map.service'
@@ -22,6 +23,8 @@ import { MapMode } from '../shared/enums/map-mode.enum';
 import MapButtonWidget from '../shared/tools/map-button';
 import { MAP_VARIABLE } from '../shared/mocks/mock-map-variable';
 
+import { MapDefExpression } from '../shared/models/map-def-expr';
+import FeatureLayerView from '@arcgis/core/views/layers/FeatureLayerView';
 
 @Component({
   selector: 'app-map',
@@ -43,6 +46,10 @@ export class MapComponent implements OnInit, OnDestroy {
   currentVariable: MapVariable = MAP_VARIABLE[0];
   mapMode:MapMode = MapMode.default;
   
+  defExpressions: MapDefExpression = {year:''};
+  defExpressionString: string = '';
+
+  layerView!: FeatureLayerView;
 
   constructor(private mapService: MapService) {
 
@@ -114,6 +121,25 @@ export class MapComponent implements OnInit, OnDestroy {
           zoom: this.project.zoom,
           constraints:{minZoom:this.project.zoom-1}
         });
+
+    
+
+    this.mapService.mapView.whenLayerView(this.mapService.variableFL)
+    .then((lv) => {
+      this.layerView = lv
+
+      this.mapService.getDefinitionExpressions().subscribe(exp => {
+        this.defExpressions = exp;
+        this.defExpressionString = Object.values(this.defExpressions).join(" and ");
+        console.log('DEFINITION EXPRESSION:', this.defExpressionString)
+        this.layerView.filter = new FeatureFilter({
+          where: this.defExpressionString
+        })
+      })
+      
+    }).catch((error) => {
+      console.log('LAYER VIEW ERROR', error)
+    })
 
     let homeWidget =  new Home({
       view: this.mapService.mapView
