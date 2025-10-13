@@ -17,6 +17,10 @@ import { MapVariable } from '../../shared/models/map-variable';
 import { MapMode } from '../../shared/enums/map-mode.enum';
 
 
+import Color from "@arcgis/core/Color";
+import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
+import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
+
 import * as relationshipRendererCreator from "@arcgis/core/smartMapping/renderers/relationship.js";
 import * as relationshipSchemes from "@arcgis/core/smartMapping/symbology/relationship.js";
 
@@ -138,7 +142,26 @@ export class BivariateComponent implements OnInit {
     
     
     relationshipRendererCreator.createRenderer(this.mapService.bivariateParams).then((response) => {
-      this.mapService.variableFL.renderer = response.renderer;
+      // console.log("createRenderer Response", response)
+      const renderer = response.renderer
+      const uvis = renderer.uniqueValueInfos;
+
+
+      for (const uvi of uvis) {
+        let uvi_value:string =  uvi.value.toString();
+        if (!['HH','HL','LH','LL'].includes(uvi_value)) {
+          uvi.symbol = new SimpleFillSymbol({
+             color: new Color([99,99,99, 0.1]),
+             outline: new SimpleLineSymbol({
+                color: new Color([255, 255, 255, 0]),
+                width: 0.5
+             })
+          })
+        }
+      }
+
+
+      this.mapService.variableFL.renderer = renderer;
     });
     
     
