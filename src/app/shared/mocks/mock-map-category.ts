@@ -9,7 +9,7 @@ export const MAP_CATEGORY: MapCategory[] = [
     {
         categoryId: 2,
         name: 'Economy',
-        mapVariables: [13, 14, 15, 16, 17, 18, 19, 20, 21]
+        mapVariables: [13, 14, 15, 16, 17, 18, 19, 20, 21,  89, 90, 91]
     },
     {
         categoryId: 3,
@@ -29,7 +29,7 @@ export const MAP_CATEGORY: MapCategory[] = [
     {
         categoryId: 6,
         name: 'Health',
-        mapVariables: [49, 50, 51, 52, 53, 54, 55, 56, 57]
+        mapVariables: [49, 50, 51, 52, 53, 54, 55, 56, 57, 88]
     },
     {
         categoryId: 7,
