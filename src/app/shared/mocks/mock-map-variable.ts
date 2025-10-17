@@ -871,6 +871,46 @@ export const MAP_VARIABLE: MapVariable[] = [
         yearsAvailable: [],
         disabled: true,
         },
+        {
+        variableId: 88,
+        name: 'Population Without Health Insurance',
+        fieldName: 'percentnotinsureda',
+        bivariateField: 'z_percentnotinsureda',
+        moransField: 'null',
+        valueType: 'percentage',
+        yearsAvailable: [2018,2019,2020,2021,2022,2023],
+        disabled: false,
+        },
+        {
+        variableId: 89,
+        name: 'Households Burden with Mortgage Costs',
+        fieldName: 'percentmortgageburdenthousehold',
+        bivariateField: 'z_percentmortgageburdenthouseho',
+        moransField: 'null',
+        valueType: 'percentage',
+        yearsAvailable: [2018,2019,2020,2021,2022,2023],
+        disabled: false,
+        },
+        {
+        variableId: 90,
+        name: 'Households Burden with Rent Costs',
+        fieldName: 'percentrentcostburdenthousehold',
+        bivariateField: 'z_percentrentcostburdenthouseho',
+        moransField: 'null',
+        valueType: 'percentage',
+        yearsAvailable: [2018,2019,2020,2021,2022,2023],
+        disabled: false,
+        },
+        {
+        variableId: 91,
+        name: 'Population Below Poverty Line',
+        fieldName: 'percentpoverty',
+        bivariateField: 'z_percentpoverty',
+        moransField: 'null',
+        valueType: 'percentage',
+        yearsAvailable: [2018,2019,2020,2021,2022,2023],
+        disabled: false,
+        }
         
 ]
 
