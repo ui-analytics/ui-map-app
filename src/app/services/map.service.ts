@@ -142,7 +142,7 @@ export class MapService {
     if (environment.useApi) {
       // For API, we'll use the project name instead of ID
       // You may want to modify this based on your needs
-      return this.getProjectFromApi('Regional Explorer');
+      return this.getProjectFromApi('Carolinas Regional Explorer');
     } else {
       return of(PROJECT.filter((project) => project.projectId === id).reduce((acc: any, it) => it, {}));
     }

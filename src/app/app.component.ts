@@ -36,13 +36,16 @@ export class AppComponent implements OnInit {
   isSidenavOpen?:boolean;
 
 
-  setProject(id: number): void {
-    this.mapService.getProjectById(id)
-      .subscribe(project => {
-        this.mapService.project = project;
-        this.projectName = project.name;
-        this.projectId = project.projectId
-      });
+  setProject(id: number): Promise<void> {
+    return new Promise((resolve) => {
+      this.mapService.getProjectById(id)
+        .subscribe(project => {
+          this.mapService.project = project;
+          this.projectName = project.name;
+          this.projectId = project.projectId;
+          resolve();
+        });
+    });
   }
 
   ngOnInit() {

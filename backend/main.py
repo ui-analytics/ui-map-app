@@ -1,15 +1,25 @@
 from fastapi import FastAPI, Depends, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session, joinedload
 from typing import List, Optional
 from pydantic import BaseModel
 
 # Import models and SessionLocal from the seeding script
-from backend.seed_database import SessionLocal, Project, Category, MapVariable
+from seed_database import SessionLocal, Project, Category, MapVariable
 
 app = FastAPI(
     title="Regional Explorer API",
     description="API for accessing project, category, and map variable data.",
     version="1.0.0"
+)
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:4200"],  # Angular dev server
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # --- Dependency to get DB session ---
@@ -46,6 +56,11 @@ class CategoryBase(BaseModel):
 class ProjectBase(BaseModel):
     id: int
     name: str
+    zoom: Optional[int] = None
+    center: Optional[List[float]] = None
+    basemap: Optional[dict] = None
+    maps: Optional[List[dict]] = None
+    mapTools: Optional[List[str]] = None
     categories: List[CategoryBase] = []
     
     class Config:
