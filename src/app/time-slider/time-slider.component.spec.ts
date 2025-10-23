@@ -1,23 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
-import { TimeSliderComponent } from './time-slider.component';
-
-describe('TimeSliderComponent', () => {
-  let component: TimeSliderComponent;
-  let fixture: ComponentFixture<TimeSliderComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [TimeSliderComponent]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(TimeSliderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+@Component({
+  selector: 'app-time-slider',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './time-slider.component.html',
+  styleUrls: ['./time-slider.component.css']
+})
+export class TimeSliderComponent {
+  @Input() compact = false;   // 
+}

@@ -1,1 +1,39 @@
-<div #mapViewNode></div>
+<!-- MAP VIEW HOST -->
+<div #mapViewNode class="map-view-host"></div>
+
+<!-- Pull the breakpoint flags once (avoids async/null typing issues) -->
+<ng-container *ngIf="{ h: (layout.isHandset$ | async), t: (layout.isTablet$ | async) } as bp">
+
+  <!-- TIME SLIDER: centered; compact on phones/tablets -->
+<div class="time-slider-shell" [class.compact]="(isCompact$ | async) || false">
+  <app-time-slider [compact]="(isCompact$ | async) || false"></app-time-slider>
+</div>
+
+<!-- FLOATING BUTTONS (for small screens) -->
+<button
+  class="fab-left"
+  *ngIf="(isCompact$ | async) || false"
+  title="Search"
+  (click)="toggleSearch()">
+  🔍
+</button>
+
+<button
+  class="fab"
+  *ngIf="(isCompact$ | async) || false"
+  title="Legend"
+  (click)="toggleLegend()">
+  📊
+</button>
+
+</ng-container>
+
+<!-- LEFT DRAWER: SEARCH -->
+<div class="drawer" [class.open]="showSearch">
+  <app-search></app-search>
+</div>
+
+<!-- RIGHT DRAWER: LEGEND -->
+<div class="drawer right" [class.open]="showLegend">
+  <div #legendHost id="legendContainerMobile" style="padding:10px;"></div>
+</div>
