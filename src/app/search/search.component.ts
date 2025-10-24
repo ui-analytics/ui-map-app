@@ -104,7 +104,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.mapService.mapView.goTo(extent);
   }
 
-  onFormClick() {
+  onFormClick(event:any) {
     this.searchControl.reset();
   }
 }

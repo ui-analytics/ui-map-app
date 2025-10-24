@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, Input } from '@angular/core';
 import {MatSliderModule} from '@angular/material/slider';
 import { MapService } from '../services/map.service'
 import { MapVariable } from '../shared/models/map-variable';
@@ -29,6 +29,8 @@ export class TimeSliderComponent implements OnInit {
   currentVariable?: MapVariable;
   defExpressions: MapDefExpression = {year:''};
   defExpressionString: string = '';
+
+   @Input() compact: boolean = false;
 
   constructor(private mapService: MapService) { 
     this.variableSubscription = this.mapService.getCurrentVariable().subscribe((variable) => {
