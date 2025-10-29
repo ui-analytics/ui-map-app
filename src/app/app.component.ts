@@ -15,10 +15,11 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { SearchComponent } from "./search/search.component";
 import { BivariateComponent } from "./analysis/bivariate/bivariate.component";
 import { AutocorrelationComponent } from "./analysis/autocorrelation/autocorrelation.component";
+import { VariableLineChartComponent } from "./visualizations/variable-line-chart/variable-line-chart.component";
 
 @Component({
   selector: 'app-root',
-  imports: [MapComponent, ToolbarComponent, TimeSliderComponent, TimeSliderComponent, MatSidenavModule, SearchComponent, BivariateComponent, AutocorrelationComponent],
+  imports: [MapComponent, ToolbarComponent, TimeSliderComponent, TimeSliderComponent, MatSidenavModule, SearchComponent, BivariateComponent, AutocorrelationComponent, VariableLineChartComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

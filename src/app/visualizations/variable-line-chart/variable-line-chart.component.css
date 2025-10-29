@@ -1,0 +1,4 @@
+.chart-wrapper{ padding: 8px 16px; }
+.title{ margin: 0 0 8px 0; font-weight: 600; font-size: 14px; }
+.chart-canvas{ width: 100%; max-width: 900px; height: 280px; }
+.placeholder{ color:#666; font-size: 13px; padding: 12px 0; }

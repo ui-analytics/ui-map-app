@@ -30,6 +30,7 @@ import Legend from "@arcgis/core/widgets/Legend.js";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer.js";
 import { Extent as EsriExtent } from "@arcgis/core/geometry";
 import classBreaks from "@arcgis/core/smartMapping/statistics/classBreaks.js";
+import Query from "@arcgis/core/rest/support/Query.js";
 
 @Injectable({
   providedIn: 'root'
@@ -220,6 +221,8 @@ export class MapService {
   }
 
   clearSelectedFeatures() {
+    // Also clear selected location id so charts and other UIs can react
+    this.selectedLocationId.next(null);
     this.graphicsLayer.removeAll();
   }
 
@@ -281,5 +284,50 @@ export class MapService {
       this.autocorrelationRenderer.field = fieldName;
       this.variableFL.renderer = this.autocorrelationRenderer;
     }
+    }
+
+  // Selection state accessors
+  private selectedLocationId = new BehaviorSubject<string | null>(null);
+
+  getSelectedLocationId(): Observable<string | null> {
+    return this.selectedLocationId.asObservable();
+  }
+
+  setSelectedLocationId(id: string | null) {
+    this.selectedLocationId.next(id);
+  }
+
+  /**
+   * Query the all-years FeatureLayer for a single location and return
+   * a time series for the provided variable.
+   * Contract:
+   * - Input: variable (with fieldName, yearsAvailable), locationId (crdt_unique_id)
+   * - Output: array sorted by year: [{year:number, value:number}]
+   */
+  getTimeSeriesForVariable(variable: MapVariable, locationId: string): Observable<Array<{ year: number; value: number }>> {
+    if (!locationId || !variable?.fieldName) {
+      return of([]);
+    }
+
+    // Build query for the selected location and fetch attributes for all years
+    const query: Query = this.variableAllYearsFL.createQuery();
+    query.where = `crdt_unique_id = '${locationId}'`;
+    query.outFields = ["year", variable.fieldName];
+    query.returnGeometry = false;
+    query.orderByFields = ["year"];
+
+    return from(
+      this.variableAllYearsFL.queryFeatures(query).then((results: any) => {
+        const allowedYears = new Set(variable.yearsAvailable || []);
+        const series = results.features
+          .map((f: any) => ({
+            year: Number(f.attributes.year),
+            value: Number(f.attributes[variable.fieldName]),
+          }))
+          .filter((p: any) => (allowedYears.size ? allowedYears.has(p.year) : true))
+          .sort((a: any, b: any) => a.year - b.year);
+        return series;
+      })
+    );
   }
 }

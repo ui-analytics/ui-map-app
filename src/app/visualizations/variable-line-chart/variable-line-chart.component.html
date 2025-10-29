@@ -1,0 +1,9 @@
+<div class="chart-wrapper">
+  <h3 class="title">Trend: {{ variable?.name || 'Variable' }}</h3>
+  <div *ngIf="!selectedId" class="placeholder">
+    Select a location to see the time series.
+  </div>
+  <div *ngIf="selectedId">
+    <canvas #chartCanvas class="chart-canvas"></canvas>
+  </div>
+</div>
