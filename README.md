@@ -4,15 +4,32 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.6.
 
-## Development server
+## Development server (Windows-friendly)
 
-To start a local development server, run:
+Prereqs
+- Node.js 18 LTS or 20+ (recommended)
+- npm 10+
 
-```bash
-ng serve
+Install dependencies:
+
+```powershell
+npm install
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Start the dev server (pick one):
+
+- Via VS Code task: Run the task “npm: start”.
+- Via terminal (bypasses Group Policy blocks on `ng`):
+
+```powershell
+node .\node_modules\@angular\cli\bin\ng.js serve
+```
+
+Then open:
+
+- http://localhost:4200/
+
+The app hot-reloads on file save. If HMR seems stuck, press Ctrl+C to stop and re-run the serve command with `--no-hmr`.
 
 ## Code scaffolding
 
@@ -30,20 +47,20 @@ ng generate --help
 
 ## Building
 
-To build the project run:
+Create a build into `dist/`:
 
-```bash
-ng build
+```powershell
+node .\node_modules\@angular\cli\bin\ng.js build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+This produces a production-optimized bundle by default.
 
 ## Running unit tests
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Run tests with Karma (using the local CLI entrypoint):
 
-```bash
-ng test
+```powershell
+node .\node_modules\@angular\cli\bin\ng.js test
 ```
 
 ## Running end-to-end tests
@@ -55,6 +72,21 @@ ng e2e
 ```
 
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+
+## Feature: Variable Line Chart (time series)
+
+The Regional Explorer includes a first visualization: a line chart that shows the selected variable over time for the currently selected location.
+
+How to try it:
+1. Start the app (see Development server above) and open `http://localhost:4200/`.
+2. In the toolbar, choose a variable (e.g., “Population – Youth”).
+3. Use the Search box to select a place; the map will outline it.
+4. Scroll below the Time Slider to “Trend: <Variable>”. A line chart renders years on the X‑axis and values on the Y‑axis for that location.
+5. Switch to another variable; the chart updates automatically. Clear the selection to reset the chart.
+
+Notes
+- Values come from the all‑years FeatureLayer and respect each variable’s `yearsAvailable`.
+- Percentage variables display a % axis label; other types show raw values.
 
 ## Additional Resources
 
