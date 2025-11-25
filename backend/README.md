@@ -3,13 +3,23 @@
 ## Quick Start
 
 ### 1. Install Dependencies
+**Frontend:**
 ```bash
+npm install
+```
+
+**Backend:**
+```bash
+cd backend
 pip install -r requirements.txt
+cd ..
 ```
 
 ### 2. Initialize Database
 ```bash
+cd backend
 python seed_database.py
+cd ..
 ```
 
 ### 3. Start API Server
