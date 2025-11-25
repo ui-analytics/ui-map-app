@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { from, Observable, Observer, of, BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import { environment } from '../../environments/environment';
 
 import { Project } from '../shared/models/project';
 import { PROJECT } from '../shared/mocks/mock-project';
@@ -43,7 +47,20 @@ export class MapService {
   mapView!: MapView;
   colorVariable: ColorVariable = new ColorVariable();
   defaultColors: string[] = ["#eefae3", "#bae4bc", "#bae4bc", "#43a2ca", "#0868ac"];
-  variableFL: FeatureLayer = new FeatureLayer();
+  
+  private _variableFL: FeatureLayer = new FeatureLayer();
+  get variableFL(): FeatureLayer {
+    return this._variableFL;
+  }
+  set variableFL(layer: FeatureLayer) {
+    this._variableFL = layer;
+    const currentExp = this.definitionExpressions.getValue();
+    const defExpressionString = Object.values(currentExp).filter(x => x).join(" and ");
+    if (defExpressionString) {
+      this._variableFL.definitionExpression = defExpressionString;
+    }
+  }
+
   // create version of variableFL with all years
   variableAllYearsFL: FeatureLayer = new FeatureLayer();
   legend: Legend = new Legend()
@@ -133,18 +150,34 @@ export class MapService {
   private definitionExpressions = new BehaviorSubject<MapDefExpression>({year:''});
   projectMaps?: Observable<ModelMap[]>;
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getProjectById(id: number): Observable<Project> {
-    return of(PROJECT.filter((project) => project.projectId === id).reduce((acc: any, it) => it, {}));
+    if (environment.useApi) {
+      // For API, we'll use the project name instead of ID
+      // You may want to modify this based on your needs
+      return this.getProjectFromApi('Carolinas Regional Explorer');
+    } else {
+      return of(PROJECT.filter((project) => project.projectId === id).reduce((acc: any, it) => it, {}));
+    }
   }
 
   getMapCategories(): Observable<MapCategory[]> {
-    return of(MAP_CATEGORY.filter(mc => this.project?.mapCategories.includes(mc.categoryId)));
+    if (environment.useApi) {
+      return this.getCategoriesFromApi();
+    } else {
+      return of(MAP_CATEGORY.filter(mc => this.project?.mapCategories.includes(mc.categoryId)));
+    }
   }
 
   getMapVariables(mapVariables: Number[]): Observable<MapVariable[]> {
-    return of(MAP_VARIABLE.filter(mv => mapVariables.includes(mv.variableId)));
+    if (environment.useApi) {
+      // When using API, we get all variables and filter client-side for now
+      // Could be optimized to pass IDs to API endpoint in the future
+      return this.getVariablesFromApi();
+    } else {
+      return of(MAP_VARIABLE.filter(mv => mapVariables.includes(mv.variableId)));
+    }
   }
 
   getCurrentCategory(): Observable<MapCategory> {
@@ -196,6 +229,31 @@ export class MapService {
     return of(MAPS.filter(map => mapIds.includes(map.mapId)));
   }
 
+  // --- API Methods ---
+  getProjectFromApi(projectName: string): Observable<Project> {
+    return this.http.get<any>(`${environment.apiUrl}/projects/${encodeURIComponent(projectName)}`).pipe(
+      map(data => ({
+        ...data,
+        projectId: data.id,
+        mapCategories: data.categories.map((c: any) => c.id)
+      }))
+    );
+  }
+
+  getCategoriesFromApi(): Observable<MapCategory[]> {
+    return this.http.get<any[]>(`${environment.apiUrl}/categories`).pipe(
+      map(categories => categories.map(cat => ({
+        categoryId: cat.id,
+        name: cat.name,
+        mapVariables: cat.variables.map((v: any) => v.variableId)
+      })))
+    );
+  }
+
+  getVariablesFromApi(): Observable<MapVariable[]> {
+    return this.http.get<MapVariable[]>(`${environment.apiUrl}/variables`);
+  }
+
   updateMaps(maps: ModelMap[]) {
     this.projectMaps = of(maps)
   }
@@ -230,7 +288,11 @@ export class MapService {
 
   zoomSelectedFeature() {
     try {
-      const graphicExtent = this.graphicsLayer.graphics.getItemAt(0).geometry.extent
+      const graphic = this.graphicsLayer.graphics.getItemAt(0);
+      if (!graphic || !graphic.geometry) return;
+      
+      const graphicExtent = graphic.geometry.extent;
+      if (!graphicExtent) return;
 
       let extent = new EsriExtent({
         xmin: graphicExtent.xmin,

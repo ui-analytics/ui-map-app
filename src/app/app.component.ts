@@ -18,7 +18,7 @@ import { AutocorrelationComponent } from "./analysis/autocorrelation/autocorrela
 
 @Component({
   selector: 'app-root',
-  imports: [MapComponent, ToolbarComponent, TimeSliderComponent, TimeSliderComponent, MatSidenavModule, SearchComponent, BivariateComponent, AutocorrelationComponent],
+  imports: [CommonModule, MapComponent, ToolbarComponent, TimeSliderComponent, TimeSliderComponent, MatSidenavModule, SearchComponent, BivariateComponent, AutocorrelationComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -36,13 +36,16 @@ export class AppComponent implements OnInit {
   isSidenavOpen?:boolean;
 
 
-  setProject(id: number): void {
-    this.mapService.getProjectById(id)
-      .subscribe(project => {
-        this.mapService.project = project;
-        this.projectName = project.name;
-        this.projectId = project.projectId
-      });
+  setProject(id: number): Promise<void> {
+    return new Promise((resolve) => {
+      this.mapService.getProjectById(id)
+        .subscribe(project => {
+          this.mapService.project = project;
+          this.projectName = project.name;
+          this.projectId = project.projectId;
+          resolve();
+        });
+    });
   }
 
   ngOnInit() {
