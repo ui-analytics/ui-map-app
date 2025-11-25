@@ -18,7 +18,7 @@ import { AutocorrelationComponent } from "./analysis/autocorrelation/autocorrela
 
 @Component({
   selector: 'app-root',
-  imports: [MapComponent, ToolbarComponent, TimeSliderComponent, TimeSliderComponent, MatSidenavModule, SearchComponent, BivariateComponent, AutocorrelationComponent],
+  imports: [CommonModule, MapComponent, ToolbarComponent, TimeSliderComponent, TimeSliderComponent, MatSidenavModule, SearchComponent, BivariateComponent, AutocorrelationComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

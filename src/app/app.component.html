@@ -9,8 +9,8 @@
         </mat-sidenav>
         <mat-sidenav-content>
             
-            <app-map id="appMap"></app-map>
-            <app-time-slider id="appTime"></app-time-slider>
+            <app-map id="appMap" *ngIf="projectId"></app-map>
+            <app-time-slider id="appTime" *ngIf="projectId"></app-time-slider>
         </mat-sidenav-content>
     </mat-sidenav-container>
     

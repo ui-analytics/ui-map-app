@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { from, Observable, Observer, of, BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 
@@ -46,7 +47,20 @@ export class MapService {
   mapView!: MapView;
   colorVariable: ColorVariable = new ColorVariable();
   defaultColors: string[] = ["#eefae3", "#bae4bc", "#bae4bc", "#43a2ca", "#0868ac"];
-  variableFL: FeatureLayer = new FeatureLayer();
+  
+  private _variableFL: FeatureLayer = new FeatureLayer();
+  get variableFL(): FeatureLayer {
+    return this._variableFL;
+  }
+  set variableFL(layer: FeatureLayer) {
+    this._variableFL = layer;
+    const currentExp = this.definitionExpressions.getValue();
+    const defExpressionString = Object.values(currentExp).filter(x => x).join(" and ");
+    if (defExpressionString) {
+      this._variableFL.definitionExpression = defExpressionString;
+    }
+  }
+
   // create version of variableFL with all years
   variableAllYearsFL: FeatureLayer = new FeatureLayer();
   legend: Legend = new Legend()
@@ -217,11 +231,23 @@ export class MapService {
 
   // --- API Methods ---
   getProjectFromApi(projectName: string): Observable<Project> {
-    return this.http.get<Project>(`${environment.apiUrl}/projects/${encodeURIComponent(projectName)}`);
+    return this.http.get<any>(`${environment.apiUrl}/projects/${encodeURIComponent(projectName)}`).pipe(
+      map(data => ({
+        ...data,
+        projectId: data.id,
+        mapCategories: data.categories.map((c: any) => c.id)
+      }))
+    );
   }
 
   getCategoriesFromApi(): Observable<MapCategory[]> {
-    return this.http.get<MapCategory[]>(`${environment.apiUrl}/categories`);
+    return this.http.get<any[]>(`${environment.apiUrl}/categories`).pipe(
+      map(categories => categories.map(cat => ({
+        categoryId: cat.id,
+        name: cat.name,
+        mapVariables: cat.variables.map((v: any) => v.variableId)
+      })))
+    );
   }
 
   getVariablesFromApi(): Observable<MapVariable[]> {
