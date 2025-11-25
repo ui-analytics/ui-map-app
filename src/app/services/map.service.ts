@@ -288,7 +288,11 @@ export class MapService {
 
   zoomSelectedFeature() {
     try {
-      const graphicExtent = this.graphicsLayer.graphics.getItemAt(0).geometry.extent
+      const graphic = this.graphicsLayer.graphics.getItemAt(0);
+      if (!graphic || !graphic.geometry) return;
+      
+      const graphicExtent = graphic.geometry.extent;
+      if (!graphicExtent) return;
 
       let extent = new EsriExtent({
         xmin: graphicExtent.xmin,
