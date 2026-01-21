@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { from, Observable, Observer, of, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 
@@ -149,6 +149,15 @@ export class MapService {
   private mapMode = new BehaviorSubject<MapMode>(MapMode.default);
   private definitionExpressions = new BehaviorSubject<MapDefExpression>({year:''});
   projectMaps?: Observable<ModelMap[]>;
+  
+  // Counter to track render requests and prevent stale async results
+  private renderRequestId = 0;
+  
+  // Cache for classBreaks results - key is fieldName, value is the breaks array
+  private classBreaksCache: { [key: string]: any[] } = {};
+  
+  // Track last rendered variable to skip redundant renders
+  private lastRenderedField: string = '';
 
   constructor(private http: HttpClient) { }
 
@@ -172,9 +181,10 @@ export class MapService {
 
   getMapVariables(mapVariables: Number[]): Observable<MapVariable[]> {
     if (environment.useApi) {
-      // When using API, we get all variables and filter client-side for now
-      // Could be optimized to pass IDs to API endpoint in the future
-      return this.getVariablesFromApi();
+      // Get all variables from API, then filter client-side by the requested variable IDs
+      return this.getVariablesFromApi().pipe(
+        map(variables => variables.filter(v => mapVariables.includes(v.variableId)))
+      );
     } else {
       return of(MAP_VARIABLE.filter(mv => mapVariables.includes(mv.variableId)));
     }
@@ -230,28 +240,46 @@ export class MapService {
   }
 
   // --- API Methods ---
+  // Cache for API responses to prevent duplicate HTTP requests
+  private projectCache$: Observable<Project> | null = null;
+  private categoriesCache$: Observable<MapCategory[]> | null = null;
+  private variablesCache$: Observable<MapVariable[]> | null = null;
+
   getProjectFromApi(projectName: string): Observable<Project> {
-    return this.http.get<any>(`${environment.apiUrl}/projects/${encodeURIComponent(projectName)}`).pipe(
-      map(data => ({
-        ...data,
-        projectId: data.id,
-        mapCategories: data.categories.map((c: any) => c.id)
-      }))
-    );
+    if (!this.projectCache$) {
+      this.projectCache$ = this.http.get<any>(`${environment.apiUrl}/projects/${encodeURIComponent(projectName)}`).pipe(
+        map(data => ({
+          ...data,
+          projectId: data.id,
+          mapCategories: data.categories.map((c: any) => c.id)
+        })),
+        shareReplay(1)
+      );
+    }
+    return this.projectCache$;
   }
 
   getCategoriesFromApi(): Observable<MapCategory[]> {
-    return this.http.get<any[]>(`${environment.apiUrl}/categories`).pipe(
-      map(categories => categories.map(cat => ({
-        categoryId: cat.id,
-        name: cat.name,
-        mapVariables: cat.variables.map((v: any) => v.variableId)
-      })))
-    );
+    if (!this.categoriesCache$) {
+      this.categoriesCache$ = this.http.get<any[]>(`${environment.apiUrl}/categories`).pipe(
+        map(categories => categories.map(cat => ({
+          categoryId: cat.id,
+          name: cat.name,
+          mapVariables: cat.variables.map((v: any) => v.variableId)
+        }))),
+        shareReplay(1)
+      );
+    }
+    return this.categoriesCache$;
   }
 
   getVariablesFromApi(): Observable<MapVariable[]> {
-    return this.http.get<MapVariable[]>(`${environment.apiUrl}/variables`);
+    if (!this.variablesCache$) {
+      this.variablesCache$ = this.http.get<MapVariable[]>(`${environment.apiUrl}/variables`).pipe(
+        shareReplay(1)
+      );
+    }
+    return this.variablesCache$;
   }
 
   updateMaps(maps: ModelMap[]) {
@@ -307,15 +335,34 @@ export class MapService {
   }
 
   renderVariable(variable: MapVariable, fieldName:string, mapMode: MapMode) {
-
-    // console.log('VARIABLE:', variable.name);
+    // Skip if we're rendering the same field (e.g., during year changes)
+    const cacheKey = `${fieldName}_${variable.valueType}`;
+    
+    // Increment request ID to track this specific render call
+    const currentRequestId = ++this.renderRequestId;
+    
+    console.log('Rendering variable:', variable.name, 'valueType:', variable.valueType);
+    
     if (mapMode == MapMode.default) {
+      // Check if we have cached classBreaks for this field
+      if (this.classBreaksCache[cacheKey]) {
+        console.log('Using cached classBreaks for:', variable.name);
+        this.applyBreaksToRenderer(variable, this.classBreaksCache[cacheKey]);
+        return;
+      }
+      
       classBreaks({
         layer: this.variableAllYearsFL,
         field: fieldName,
         classificationMethod: 'natural-breaks',
         numClasses: 5
       }).then(res => {
+        // Ignore stale results if a newer request was made
+        if (currentRequestId !== this.renderRequestId) {
+          console.log('Ignoring stale classBreaks result for:', variable.name);
+          return;
+        }
+        
         let breaks = res.classBreakInfos.map((info, i) => ({
           value: info.maxValue,
           label: info.label,
@@ -324,24 +371,41 @@ export class MapService {
 
         breaks = breaks.map(x => this.roundBreakLabel(x));
 
+        // Apply formatting based on valueType
         if (variable.valueType === 'percentage') {
           breaks = breaks.map(x => this.addPercentSymbolToBreaks(x));
         } else if (variable.valueType === 'money') {
           breaks = breaks.map(x => this.addMoneySymbolToBreaks(x));
         }
+        // For 'numeric' valueType, no symbol is added (just rounded numbers)
 
-        const colorVariable = new ColorVariable({
-          field: variable.fieldName,
-          stops: breaks
-        })
-
-        this.defaultRenderer.visualVariables = [colorVariable];
-        this.variableFL.renderer = this.defaultRenderer;
-        this.legend.layerInfos = [{layer:this.variableFL}]
+        // Cache the breaks for future use
+        this.classBreaksCache[cacheKey] = breaks;
+        console.log('Cached classBreaks for:', variable.name);
+        
+        this.applyBreaksToRenderer(variable, breaks);
       })
     } else if (mapMode == MapMode.autocorrelation) {
       this.autocorrelationRenderer.field = fieldName;
       this.variableFL.renderer = this.autocorrelationRenderer;
     }
+  }
+  
+  private applyBreaksToRenderer(variable: MapVariable, breaks: any[]) {
+    const colorVariable = new ColorVariable({
+      field: variable.fieldName,
+      stops: breaks
+    })
+
+    this.defaultRenderer.visualVariables = [colorVariable];
+    this.variableFL.renderer = this.defaultRenderer.clone();
+    
+    // Force legend refresh by reassigning layerInfos
+    this.legend.layerInfos = [];
+    setTimeout(() => {
+      this.legend.layerInfos = [{layer: this.variableFL, title: variable.name}];
+    }, 50);
+    
+    console.log('Legend updated with breaks:', breaks.map(b => b.label));
   }
 }

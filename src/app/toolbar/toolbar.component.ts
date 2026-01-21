@@ -78,18 +78,22 @@ export class ToolbarComponent implements AfterViewInit {
 
   onToggleGroupChange(event:any) {
     let selectedValue = event.value
-    let selectedCategory = this.categories.filter((cat) => cat.name === selectedValue).reduce((acc: any, it) => it, { })
-    this.mapService.updateCurrentCategory(selectedCategory);
-    this.getVariableList();
-    // this.mapService.updateCurrentVariable(this.variables[0]);
-    
+    let selectedCategory = this.categories.find((cat) => cat.name === selectedValue);
+    if (selectedCategory) {
+      this.mapService.updateCurrentCategory(selectedCategory);
+      this.getVariableList();
+    }
   }
 
   onToggleVariableChange(event:any) {
     let selectedValue = event.value
-    let currentVariable = this.variables.filter((cat) => cat.name === selectedValue).reduce((acc: any, it) => it, { })
-    this.mapService.updateCurrentVariable(currentVariable);
-    
+    let currentVariable = this.variables.find((v) => v.name === selectedValue);
+    if (currentVariable) {
+      console.log('Selected variable:', currentVariable.name, 'valueType:', currentVariable.valueType);
+      this.mapService.updateCurrentVariable(currentVariable);
+    } else {
+      console.warn('Variable not found:', selectedValue);
+    }
   }
 
   toggleSideNav() {

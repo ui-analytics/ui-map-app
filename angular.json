@@ -107,7 +107,8 @@
   },
   "cli": {
     "cache": {
-      "enabled":false
+      "enabled": true,
+      "environment": "all"
     },
     "analytics": false
   }

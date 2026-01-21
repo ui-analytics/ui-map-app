@@ -189,34 +189,37 @@ export class MapComponent implements OnInit, OnDestroy {
   ngOnInit(): any {
     this.initializeMap().then(r => {
       let fieldName:string;
+      let lastRenderedKey: string = '';
 
       this.mapModeSubscription = this.mapService.getMapMode().subscribe((mode)=> {
         this.mapMode = mode
-        // console.log('MAP MODE:',this.mapMode);
         if (this.mapMode == MapMode.autocorrelation) {
           fieldName = this.currentVariable.moransField
         } else {
           fieldName = this.currentVariable.fieldName
-          
         }
-        this.mapService.renderVariable(this.currentVariable,fieldName,this.mapMode);
-
-
         
+        const renderKey = `${fieldName}_${this.mapMode}`;
+        if (renderKey !== lastRenderedKey) {
+          lastRenderedKey = renderKey;
+          this.mapService.renderVariable(this.currentVariable, fieldName, this.mapMode);
+        }
       });
 
       this.mapService.getCurrentVariable().subscribe((value) => {
         let fieldName:string;
         this.currentVariable = value;
-        // console.log(this.currentVariable);
-        let autoCorrelationVariable:MapVariable;
         if (this.mapMode == MapMode.autocorrelation) {
           fieldName = this.currentVariable.moransField
         } else {
           fieldName = this.currentVariable.fieldName
         }
 
-        this.mapService.renderVariable(this.currentVariable,fieldName,this.mapMode);
+        const renderKey = `${fieldName}_${this.mapMode}`;
+        if (renderKey !== lastRenderedKey) {
+          lastRenderedKey = renderKey;
+          this.mapService.renderVariable(this.currentVariable, fieldName, this.mapMode);
+        }
 
       })
       return r;

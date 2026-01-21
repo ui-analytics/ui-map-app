@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session, joinedload
 from typing import List, Optional
@@ -6,6 +6,9 @@ from pydantic import BaseModel
 
 # Import models and SessionLocal from the seeding script
 from seed_database import SessionLocal, Project, Category, MapVariable
+
+# Cache duration in seconds (5 minutes)
+CACHE_MAX_AGE = 300
 
 app = FastAPI(
     title="Regional Explorer API",
@@ -72,11 +75,13 @@ def read_root():
     return {"message": "Welcome to the Regional Explorer API"}
 
 @app.get("/projects/{project_name}", response_model=ProjectBase)
-def get_project_details(project_name: str, db: Session = Depends(get_db)):
+def get_project_details(project_name: str, response: Response, db: Session = Depends(get_db)):
     """
     Retrieves a single project with all its associated categories and variables.
     This is the primary endpoint your application will call on load.
     """
+    response.headers["Cache-Control"] = f"public, max-age={CACHE_MAX_AGE}"
+    
     project = db.query(Project).options(
         joinedload(Project.categories).joinedload(Category.variables)
     ).filter(Project.name == project_name).first()
@@ -87,15 +92,17 @@ def get_project_details(project_name: str, db: Session = Depends(get_db)):
     return project
 
 @app.get("/variables", response_model=List[MapVariableBase])
-def get_all_variables(db: Session = Depends(get_db)):
+def get_all_variables(response: Response, db: Session = Depends(get_db)):
     """
     Retrieves a flat list of all map variables in the database.
     """
+    response.headers["Cache-Control"] = f"public, max-age={CACHE_MAX_AGE}"
     return db.query(MapVariable).all()
 
 @app.get("/categories", response_model=List[CategoryBase])
-def get_all_categories(db: Session = Depends(get_db)):
+def get_all_categories(response: Response, db: Session = Depends(get_db)):
     """
     Retrieves all categories with their associated variables.
     """
+    response.headers["Cache-Control"] = f"public, max-age={CACHE_MAX_AGE}"
     return db.query(Category).options(joinedload(Category.variables)).all()
