@@ -41,3 +41,6 @@ testem.log
 .DS_Store
 Thumbs.db
 .vscode
+
+#Dataset
+Data/Fixed_Broadband_Deployment_Data__June_2021_Status_V1_20260225.csv
