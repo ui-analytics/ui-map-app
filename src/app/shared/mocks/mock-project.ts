@@ -37,5 +37,5 @@ export const PROJECT: Project[] = [{
       }
     ],
     mapTools: [MapToolCategory.base],
-    mapCategories: [1,2,3,4,5,6,7,8,9]
+    mapCategories: [10,1,2,3,4,5,6,7,8,9]
   }];
