@@ -2,6 +2,11 @@ import { MapCategory } from '../models/map-category';
 
 export const MAP_CATEGORY: MapCategory[] = [
     {
+        categoryId: 10,
+        name: 'Arts & Culture',
+        mapVariables: []
+    },
+    {
         categoryId: 1,
         name: 'Character',
         mapVariables: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
